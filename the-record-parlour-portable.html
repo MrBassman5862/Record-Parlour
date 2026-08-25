@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Record Parlour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Arvo:ital,wght@0,400;0,700;1,400&family=Boogaloo&family=Bungee&family=Courier+Prime:wght@400;700&family=Fredoka:wght@400;600&family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Lora:wght@400;600&family=Merriweather:wght@400;700&family=Permanent+Marker&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;600&family=Righteous&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F2E4C9;
+    --cream-dark:#E6D2A6;
+    --paper:#FBF4E4;
+    --rust:#C2521E;
+    --rust-dark:#9C3E14;
+    --brown:#3B2415;
+    --brown-soft:#6B4A31;
+    --mustard:#D9A441;
+    --avocado:#5C6B2F;
+    --teal:#2A5C55;
+    --label-text:#FBF4E4;
+    --shadow: 0 6px 0 rgba(59,36,21,0.15);
+    --font-display: 'Boogaloo', sans-serif;
+    --font-body: 'Arvo', serif;
+    --font-mono: 'Space Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(217,164,65,0.25), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(194,82,30,0.15), transparent 45%);
+    color:var(--brown);
+    font-family:var(--font-body);
+    line-height:1.5;
+    min-height:100vh;
+  }
+  h1,h2,h3,.eyebrow,.tab,.surprise-btn,.fab,.cat-pill,.shelf-square .label,.modal-title{
+    font-family:var(--font-display);
+    letter-spacing:0.02em;
+  }
+  .mono{font-family:var(--font-mono);}
+
+  a{color:inherit;}
+  button{font:inherit; cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:2.5rem 1.25rem 1.5rem;
+    max-width:960px;
+    margin:0 auto;
+  }
+  .hero-inner{
+    display:flex;
+    align-items:center;
+    gap:1.25rem;
+  }
+  .vinyl-logo{
+    flex:0 0 auto;
+    width:76px;height:76px;border-radius:50%;
+    background:
+      radial-gradient(circle at center, var(--mustard) 0 14%, var(--brown) 15% 16%, #161010 17% 100%),
+      repeating-radial-gradient(circle, #201812 0px, #201812 2px, #2c221a 3px, #2c221a 5px);
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.05), 0 6px 14px rgba(59,36,21,0.35);
+    animation: spin 7s linear infinite;
+    position:relative;
+  }
+  .vinyl-logo.custom-logo{
+    width: var(--logo-size, 76px);
+    height: var(--logo-size, 76px);
+    border-radius: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    box-shadow: none;
+  }
+  .vinyl-logo.preset-jazz{
+    width:92px; height:92px;
+    background:
+      radial-gradient(circle at center, var(--mustard) 0 9%, var(--brown) 10% 11%, #161010 12% 66%, transparent 67% 100%),
+      repeating-conic-gradient(from 0deg, var(--rust) 0deg 12deg, var(--mustard) 12deg 24deg);
+    box-shadow: 0 0 20px 2px rgba(212,175,55,0.35), inset 0 0 0 2px rgba(255,255,255,0.06);
+    animation-duration: 11s;
+  }
+  .vinyl-logo.spin-off{ animation:none; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){
+    .vinyl-logo{ animation:none; }
+  }
+  .eyebrow{
+    color:var(--rust);
+    font-size:1.05rem;
+    margin:0;
+    letter-spacing:0.14em;
+  }
+  h1{
+    margin:0.1rem 0 0.3rem;
+    font-size:clamp(2.4rem, 7vw, 3.6rem);
+    color:var(--brown);
+    line-height:0.95;
+  }
+  .tagline{
+    margin:0;
+    color:var(--brown-soft);
+    font-style:italic;
+    max-width:34ch;
+    font-size:0.98rem;
+  }
+
+  /* ---------- SHELF MAP ---------- */
+  .shelf-map{
+    display:flex;
+    gap:0.6rem;
+    margin-top:1.6rem;
+  }
+  .shelf-square{
+    flex:1;
+    background:var(--cream-dark);
+    border:2px solid var(--brown);
+    border-radius:6px;
+    box-shadow: inset 0 0 0 4px var(--paper);
+    padding:0.7rem 0.6rem;
+    text-align:center;
+    position:relative;
+  }
+  .shelf-square.wide{ flex:2; }
+  .shelf-square .label{
+    display:block;
+    font-size:1rem;
+    color:var(--brown-soft);
+  }
+  .shelf-square .num{
+    display:block;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:1.5rem;
+    color:var(--rust-dark);
+  }
+  .shelf-square .sub{
+    display:block;
+    font-size:0.68rem;
+    color:var(--brown-soft);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+
+  /* ---------- CONTROLS ---------- */
+  .controls{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:var(--cream);
+    border-bottom:2px dashed var(--brown-soft);
+    padding:0.9rem 1.25rem;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.6rem;
+    align-items:center;
+    max-width:960px;
+    margin:0 auto;
+  }
+  #search{
+    flex:1 1 220px;
+    padding:0.65rem 1rem;
+    border-radius:999px;
+    border:2px solid var(--brown);
+    background:var(--paper);
+    color:var(--brown);
+    font-family:var(--font-body);
+    font-size:0.95rem;
+  }
+  #search:focus{ outline:3px solid var(--mustard); outline-offset:1px; }
+  .tabs{ display:flex; gap:0.35rem; }
+  .tab{
+    background:var(--paper);
+    border:2px solid var(--brown);
+    border-radius:999px;
+    padding:0.45rem 0.9rem;
+    font-size:1rem;
+    color:var(--brown);
+  }
+  .tab.active{ background:var(--brown); color:var(--cream); }
+  .surprise-btn{
+    background:var(--rust);
+    color:var(--label-text);
+    border:2px solid var(--brown);
+    border-radius:999px;
+    padding:0.5rem 1.1rem;
+    font-size:1.05rem;
+    box-shadow:var(--shadow);
+    transition:transform 0.12s ease;
+  }
+  .surprise-btn:hover{ transform:translateY(-2px); }
+  .surprise-btn:active{ transform:translateY(2px); box-shadow:none; }
+  .surprise-btn.spinning .rec{ animation: spin 0.5s linear infinite; }
+
+  /* ---------- GRID ---------- */
+  main.grid{
+    max-width:960px;
+    margin:0 auto;
+    padding:1.5rem 1.25rem 6rem;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+    gap:1.4rem 1.1rem;
+  }
+  .empty-state{
+    grid-column:1/-1;
+    text-align:center;
+    padding:3rem 1rem;
+    color:var(--brown-soft);
+  }
+  .empty-state .big-rec{
+    width:90px;height:90px;border-radius:50%;margin:0 auto 1rem;
+    background:radial-gradient(circle at center, var(--mustard) 0 14%, var(--brown) 15% 16%, #161010 17% 100%),
+      repeating-radial-gradient(circle, #201812 0px, #201812 2px, #2c221a 3px, #2c221a 5px);
+  }
+
+  .card{
+    background:none;
+    border:none;
+    padding:0;
+    text-align:left;
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+  }
+  .sleeve-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+  }
+  .sleeve{
+    position:absolute; inset:0;
+    border-radius:5px;
+    border:2px solid var(--brown);
+    box-shadow: var(--shadow);
+    display:flex;
+    align-items:flex-end;
+    padding:0.4rem;
+    overflow:hidden;
+    transition: transform 0.15s ease;
+  }
+  .card:hover .sleeve{ transform:translateY(-3px) rotate(-1deg); }
+  .card:hover .disc{ transform:translateY(-3px) rotate(-1deg); }
+  .card:focus-visible .sleeve{ outline:3px solid var(--mustard); outline-offset:2px; }
+  .cover-img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    z-index:1;
+  }
+  .disc{
+    position:absolute;
+    top:8%;
+    right:-18%;
+    width:78%;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    background: repeating-radial-gradient(circle, #201812 0px, #201812 2px, #2c221a 3px, #2c221a 5px);
+    box-shadow: -4px 4px 10px rgba(0,0,0,0.35);
+    transition: transform 0.15s ease;
+  }
+  .disc::after{
+    content:attr(data-mono);
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    width:44%; height:44%; margin:auto;
+    border-radius:50%;
+    background:var(--label-color, var(--rust));
+    color:var(--label-text);
+    font-family:var(--font-mono);
+    font-size:0.56rem;
+    font-weight:700;
+    text-align:center;
+  }
+  .cat-pill{
+    position:relative;
+    z-index:2;
+    font-size:0.72rem;
+    padding:0.15rem 0.55rem;
+    border-radius:999px;
+    color:var(--label-text);
+  }
+  .cat-pill.album{ background:var(--avocado); }
+  .cat-pill.soundtrack{ background:var(--teal); }
+  .card-title{ font-weight:700; font-size:0.95rem; margin:0; }
+  .card-artist{ font-size:0.85rem; color:var(--brown-soft); margin:0; }
+
+  /* ---------- FAB ---------- */
+  .fab{
+    position:fixed;
+    right:1.2rem; bottom:1.2rem;
+    background:var(--brown);
+    color:var(--cream);
+    border:none;
+    border-radius:999px;
+    padding:0.85rem 1.3rem;
+    font-size:1.05rem;
+    box-shadow:0 6px 16px rgba(0,0,0,0.3);
+    z-index:15;
+  }
+
+  footer{
+    text-align:center;
+    padding:1.5rem 1rem 2.5rem;
+    color:var(--brown-soft);
+  }
+  .curator-link{
+    background:none;
+    border:none;
+    text-decoration:underline;
+    color:var(--brown-soft);
+    font-family:var(--font-body);
+    font-size:0.85rem;
+  }
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:fixed; inset:0;
+    background:rgba(59,36,21,0.55);
+    display:flex; align-items:flex-end; justify-content:center;
+    z-index:50;
+    padding:0;
+  }
+  @media (min-width: 640px){
+    .overlay{ align-items:center; padding:1.5rem; }
+  }
+  .modal{
+    background:var(--paper);
+    width:100%;
+    max-width:560px;
+    max-height:88vh;
+    overflow-y:auto;
+    border-radius:18px 18px 0 0;
+    border:2px solid var(--brown);
+    padding:1.5rem 1.4rem 2rem;
+    position:relative;
+  }
+  @media (min-width: 640px){
+    .modal{ border-radius:14px; }
+  }
+  .modal-close{
+    position:absolute; top:0.8rem; right:0.9rem;
+    background:var(--cream-dark);
+    border:2px solid var(--brown);
+    border-radius:50%;
+    width:34px; height:34px;
+    font-size:1.1rem;
+    line-height:1;
+  }
+  .modal-header{ display:flex; gap:1rem; align-items:center; margin-bottom:1rem; padding-right:2rem;}
+  .modal-disc{
+    flex:0 0 auto;
+    width:64px;height:64px;border-radius:50%;
+    background: repeating-radial-gradient(circle, #201812 0px, #201812 2px, #2c221a 3px, #2c221a 5px);
+    position:relative;
+  }
+  .modal-disc.drop{ animation: spin 0.9s ease-out 1; }
+  .modal-cover{
+    flex:0 0 auto;
+    width:64px; height:64px;
+    border-radius:6px;
+    border:2px solid var(--brown);
+    object-fit:cover;
+  }
+  .modal-disc::after{
+    content:attr(data-mono);
+    position:absolute; inset:0; margin:auto;
+    width:42%; height:42%;
+    border-radius:50%;
+    background:var(--label-color, var(--rust));
+    display:flex; align-items:center; justify-content:center;
+    color:var(--label-text); font-family:var(--font-mono); font-size:0.48rem;
+  }
+  .catalog-no{ color:var(--rust-dark); font-size:0.78rem; margin:0 0 0.15rem;}
+  .modal-title{ font-size:1.8rem; margin:0; line-height:1;}
+  .modal-artist{ margin:0.15rem 0 0; color:var(--brown-soft); font-style:italic;}
+  .meta-row{ display:flex; gap:0.6rem; flex-wrap:wrap; margin:0.8rem 0 1.1rem;}
+  .meta-chip{
+    font-family:var(--font-mono);
+    font-size:0.72rem;
+    background:var(--cream-dark);
+    border:1px solid var(--brown-soft);
+    border-radius:6px;
+    padding:0.25rem 0.55rem;
+  }
+  .section-label{
+    font-family:var(--font-display);
+    color:var(--rust);
+    font-size:1.05rem;
+    margin:1.1rem 0 0.4rem;
+  }
+  .tracklist{ margin:0; padding-left:1.3rem; }
+  .tracklist li{ margin-bottom:0.25rem; }
+  .notes{ font-style:italic; color:var(--brown-soft); }
+  .modal-actions{ display:flex; gap:0.6rem; margin-top:1.5rem; flex-wrap:wrap;}
+  .btn{
+    border-radius:999px; border:2px solid var(--brown); padding:0.5rem 1rem;
+    font-family:var(--font-display); font-size:1rem; background:var(--paper); color:var(--brown);
+  }
+  .btn.primary{ background:var(--rust); color:var(--label-text); }
+  .btn.danger{ background:var(--teal); color:var(--label-text); }
+
+  /* ---------- FORM ---------- */
+  .field{ margin-bottom:0.9rem; display:flex; flex-direction:column; gap:0.3rem; }
+  .field label{ font-size:0.8rem; color:var(--brown-soft); text-transform:uppercase; letter-spacing:0.06em; }
+  .field input, .field select, .field textarea{
+    font-family:var(--font-body); font-size:0.95rem; padding:0.55rem 0.7rem;
+    border-radius:8px; border:2px solid var(--brown); background:var(--cream);
+  }
+  .field textarea{ min-height:5.5rem; resize:vertical; }
+  .field-row{ display:flex; gap:0.7rem; }
+  .field-row .field{ flex:1; }
+  .logo-preview-row{
+    display:flex; gap:0.9rem; align-items:center;
+    margin:0.4rem 0 1rem; flex-wrap:wrap;
+  }
+  .logo-preview-swatch{
+    width:76px; height:76px; flex:0 0 auto;
+    border:2px solid var(--brown);
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size:12px 12px;
+    background-position:0 0, 0 6px, 6px -6px, -6px 0px;
+    background-color:#fff;
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .logo-preview-swatch img{ max-width:100%; max-height:100%; object-fit:contain; display:block; }
+  .logo-preview-actions{ display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap; }
+  .logo-sensitivity{ display:flex; align-items:center; gap:0.4rem; }
+  .logo-sensitivity label{ font-size:0.78rem; color:var(--brown-soft); }
+  .logo-sensitivity input[type=range]{ width:110px; }
+
+  .toast{
+    position:fixed; left:50%; bottom:1.4rem; transform:translateX(-50%);
+    background:var(--brown); color:var(--cream); padding:0.6rem 1.1rem;
+    border-radius:999px; font-size:0.85rem; z-index:80; box-shadow:0 6px 16px rgba(0,0,0,0.3);
+  }
+
+  .curator-banner{
+    max-width:960px; margin:0 auto; padding:0 1.25rem;
+  }
+  .curator-banner span{
+    display:inline-block; background:var(--mustard); border:2px solid var(--brown);
+    border-radius:999px; padding:0.3rem 0.8rem; font-size:0.78rem; font-family:var(--font-mono);
+  }
+  .cover-panel{
+    margin-top:0.7rem;
+    background:var(--paper);
+    border:2px dashed var(--brown-soft);
+    border-radius:10px;
+    padding:0.8rem 0.9rem;
+  }
+  .cover-panel-text{
+    margin:0 0 0.6rem;
+    font-size:0.82rem;
+    color:var(--brown-soft);
+  }
+  .cover-panel-text a{ color:var(--rust-dark); }
+  .cover-panel-row{
+    display:flex;
+    gap:0.5rem;
+    flex-wrap:wrap;
+  }
+  .cover-panel-row input{
+    flex:1 1 220px;
+    padding:0.5rem 0.7rem;
+    border-radius:8px;
+    border:2px solid var(--brown);
+    background:var(--cream);
+    font-family:var(--font-mono);
+    font-size:0.82rem;
+  }
+  .cover-panel-status{
+    margin:0.5rem 0 0;
+    font-size:0.78rem;
+    color:var(--rust-dark);
+    font-family:var(--font-mono);
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="vinyl-logo" id="vinyl-logo" aria-hidden="true"></div>
+    <div class="hero-text">
+      <p class="eyebrow" id="site-eyebrow">SIDE A</p>
+      <h1 id="site-title">The Record Parlour</h1>
+      <p class="tagline" id="site-tagline">A Private Record Collection</p>
+    </div>
+  </div>
+  <div class="shelf-map" aria-hidden="true">
+    <div class="shelf-square wide">
+      <span class="label">the LPs</span>
+      <span class="num" id="count-album">0</span>
+      <span class="sub">squares 1–2</span>
+    </div>
+    <div class="shelf-square">
+      <span class="label">soundtracks</span>
+      <span class="num" id="count-soundtrack">0</span>
+      <span class="sub">square 3</span>
+    </div>
+  </div>
+</header>
+
+<div class="curator-banner" id="curator-banner" style="display:none;">
+  <span>🖊️ Curator mode — you can add, edit &amp; remove records</span>
+  <button class="btn" id="customize-btn" style="display:block; margin-top:0.6rem;">🎨 Customize site</button>
+  <div class="cover-panel" id="cover-panel">
+    <p class="cover-panel-text">Pull real cover art from Discogs. Needs a free personal access token from <a href="https://www.discogs.com/settings/developers" target="_blank" rel="noopener">discogs.com/settings/developers</a> — image URLs aren't included in Discogs' API without one.</p>
+    <div class="cover-panel-row">
+      <input id="discogs-token" type="text" placeholder="Paste your Discogs token here">
+      <button class="btn primary" id="fetch-covers-btn">Fetch covers</button>
+    </div>
+    <p class="cover-panel-status" id="cover-panel-status"></p>
+  </div>
+</div>
+
+<div class="controls">
+  <input id="search" type="search" placeholder="Search title, artist, genre…" autocomplete="off">
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-filter="all">All</button>
+    <button class="tab" data-filter="album">Albums</button>
+    <button class="tab" data-filter="soundtrack">Soundtracks</button>
+  </div>
+  <button class="surprise-btn" id="surprise-btn"><span class="rec">🎲</span> Surprise me</button>
+</div>
+
+<main class="grid" id="grid"></main>
+
+<button class="fab" id="add-btn" style="display:none;">+ Add a record</button>
+
+<footer>
+  <button class="curator-link" id="curator-btn">Curator sign-in</button>
+</footer>
+
+<div id="modal-host"></div>
+<div id="toast-host"></div>
+
+<script>
+/* ---------- Storage adapter ----------
+   On claude.ai, window.storage just works — nothing below matters or changes.
+   If this file is copied out and self-hosted anywhere else, window.storage won't
+   exist, so this transparently falls back to a free JSONBin.io database instead.
+   Everything else in the app calls storageGet/storageSet and never touches
+   window.storage or JSONBin directly. */
+const JSONBIN_ID_LS_KEY = 'kallax-jsonbin-id';
+const JSONBIN_APIKEY_LS_KEY = 'kallax-jsonbin-key';
+
+function hasClaudeStorage(){
+  return typeof window.storage !== 'undefined';
+}
+
+function getJsonbinConfig(){
+  try{
+    return {
+      binId: localStorage.getItem(JSONBIN_ID_LS_KEY) || '',
+      apiKey: localStorage.getItem(JSONBIN_APIKEY_LS_KEY) || ''
+    };
+  }catch(e){
+    return { binId: '', apiKey: '' };
+  }
+}
+function setJsonbinConfig(binId, apiKey){
+  try{
+    localStorage.setItem(JSONBIN_ID_LS_KEY, binId);
+    localStorage.setItem(JSONBIN_APIKEY_LS_KEY, apiKey);
+  }catch(e){ /* ignore */ }
+}
+
+let jsonbinCache = null;
+let jsonbinCacheLoaded = false;
+
+async function jsonbinLoadAll(){
+  const { binId, apiKey } = getJsonbinConfig();
+  if(!binId) return {};
+  try{
+    const headers = apiKey ? { 'X-Master-Key': apiKey } : {};
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, { headers });
+    if(!res.ok) return {};
+    const data = await res.json();
+    return data.record || {};
+  }catch(e){
+    return {};
+  }
+}
+async function jsonbinSaveAll(record){
+  const { binId, apiKey } = getJsonbinConfig();
+  if(!binId || !apiKey) return false;
+  try{
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': apiKey },
+      body: JSON.stringify(record)
+    });
+    return res.ok;
+  }catch(e){
+    return false;
+  }
+}
+async function ensureJsonbinCache(){
+  if(!jsonbinCacheLoaded){
+    jsonbinCache = await jsonbinLoadAll();
+    jsonbinCacheLoaded = true;
+  }
+  return jsonbinCache;
+}
+
+async function storageGet(key){
+  if(hasClaudeStorage()){
+    try{ return await window.storage.get(key, true); }catch(e){ return null; }
+  }
+  const cache = await ensureJsonbinCache();
+  return (key in cache) ? { key, value: cache[key], shared: true } : null;
+}
+async function storageSet(key, value){
+  if(hasClaudeStorage()){
+    try{ return await window.storage.set(key, value, true); }catch(e){ return null; }
+  }
+  const cache = await ensureJsonbinCache();
+  cache[key] = value;
+  const ok = await jsonbinSaveAll(cache);
+  return ok ? { key, value, shared: true } : null;
+}
+
+const STORAGE_KEY = 'kallax-collection-v1';
+const PIN_KEY = 'kallax-curator-pin';
+
+const SEED_ALBUMS = [{"id": "seed_0001", "catalogNo": 1, "title": "Addison", "artist": "Addison Rae", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34167844", "cover": ""}, {"id": "seed_0066", "catalogNo": 2, "title": "20 Golden Greats", "artist": "The Beach Boys", "year": "1976", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "4607506", "cover": ""}, {"id": "seed_0067", "catalogNo": 3, "title": "Sgt. Pepper's Lonely Hearts Club Band", "artist": "The Beatles", "year": "1967", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "4113076", "cover": ""}, {"id": "seed_0002", "catalogNo": 4, "title": "Greatest Hits", "artist": "Bob Dylan", "year": "1966", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "5613621", "cover": ""}, {"id": "seed_0003", "catalogNo": 5, "title": "Brat And It's The Same But There's Three More Songs So It's Not", "artist": "Charli XCX", "year": "2024", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "31943833", "cover": ""}, {"id": "seed_0004", "catalogNo": 6, "title": "Awaken, My Love!", "artist": "Childish Gambino", "year": "2018", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "13242411", "cover": ""}, {"id": "seed_0005", "catalogNo": 7, "title": "Awaken, My Love!", "artist": "Childish Gambino", "year": "2018", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "13242411", "cover": ""}, {"id": "seed_0006", "catalogNo": 8, "title": "Bando Stone And The New World", "artist": "Childish Gambino", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "33809844", "cover": ""}, {"id": "seed_0007", "catalogNo": 9, "title": "The Very Best Of Chris de Burgh", "artist": "Chris de Burgh", "year": "1984", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "9127597", "cover": ""}, {"id": "seed_0008", "catalogNo": 10, "title": "Sweet Decay", "artist": "Ciaran Lavery", "year": "2018", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "11877299", "cover": ""}, {"id": "seed_0009", "catalogNo": 11, "title": "Greatest Hits Vol. 2", "artist": "Connie Francis", "year": "1972", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "7695289", "cover": ""}, {"id": "seed_0068", "catalogNo": 12, "title": "Seventeen Seconds", "artist": "The Cure", "year": "", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "35794957", "cover": ""}, {"id": "seed_0010", "catalogNo": 13, "title": "Dean Martin's Greatest Hits! Vol. 1", "artist": "Dean Martin", "year": "1968", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "25827844", "cover": ""}, {"id": "seed_0011", "catalogNo": 14, "title": "Out Of The Blue", "artist": "Electric Light Orchestra", "year": "1977", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "601218", "cover": ""}, {"id": "seed_0012", "catalogNo": 15, "title": "Ella And Louis", "artist": "Ella Fitzgerald & Louis Armstrong", "year": "", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "27498939", "cover": ""}, {"id": "seed_0013", "catalogNo": 16, "title": "Elvis 56", "artist": "Elvis Presley", "year": "2016", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "8983837", "cover": ""}, {"id": "seed_0014", "catalogNo": 17, "title": "It Won't Seem Like Christmas (Without You)", "artist": "Elvis Presley", "year": "1979", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "3105978", "cover": ""}, {"id": "seed_0015", "catalogNo": 18, "title": "The Eminem Show", "artist": "Eminem", "year": "2014", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "7282012", "cover": ""}, {"id": "seed_0016", "catalogNo": 19, "title": "Recovery", "artist": "Eminem", "year": "2024", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "32801046", "cover": ""}, {"id": "seed_0017", "catalogNo": 20, "title": "Preacher's Daughter", "artist": "Ethel Cain", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "32591889", "cover": ""}, {"id": "seed_0018", "catalogNo": 21, "title": "Rumours", "artist": "Fleetwood Mac", "year": "", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "37340382", "cover": ""}, {"id": "seed_0019", "catalogNo": 22, "title": "Life Ain’t Always Empty", "artist": "Fontaines D.C.", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34571560", "cover": ""}, {"id": "seed_0021", "catalogNo": 23, "title": "Romance", "artist": "Fontaines D.C.", "year": "2024", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "31541293", "cover": ""}, {"id": "seed_0020", "catalogNo": 24, "title": "Skinty Fia", "artist": "Fontaines D.C.", "year": "", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "37734138", "cover": ""}, {"id": "seed_0022", "catalogNo": 25, "title": "New York New York (His Greatest Hits)", "artist": "Frank Sinatra", "year": "1983", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "15037737", "cover": ""}, {"id": "seed_0023", "catalogNo": 26, "title": "Let It Roll", "artist": "George Harrison", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34517791", "cover": ""}, {"id": "seed_0024", "catalogNo": 27, "title": "Plastic Beach", "artist": "Gorillaz", "year": "2023", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "26297240", "cover": ""}, {"id": "seed_0025", "catalogNo": 28, "title": "American Idiot", "artist": "Green Day", "year": "", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "38071125", "cover": ""}, {"id": "seed_0026", "catalogNo": 29, "title": "Dookie", "artist": "Green Day", "year": "2023", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "26376695", "cover": ""}, {"id": "seed_0027", "catalogNo": 30, "title": "Art Angels", "artist": "Grimes", "year": "2015", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "7816932", "cover": ""}, {"id": "seed_0028", "catalogNo": 31, "title": "24 Of Hank Williams' Greatest Hits", "artist": "Hank Williams", "year": "1970", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "5423844", "cover": ""}, {"id": "seed_0029", "catalogNo": 32, "title": "Fore!", "artist": "Huey Lewis & The News", "year": "1986", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "7833095", "cover": ""}, {"id": "seed_0030", "catalogNo": 33, "title": "Evolve", "artist": "Imagine Dragons", "year": "2022", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "25893235", "cover": ""}, {"id": "seed_0069", "catalogNo": 34, "title": "Time Out For Tears", "artist": "The Ink Spots", "year": "1956", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "15214631", "cover": ""}, {"id": "seed_0031", "catalogNo": 35, "title": "Grace", "artist": "Jeff Buckley", "year": "2010", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34407499", "cover": ""}, {"id": "seed_0032", "catalogNo": 36, "title": "Still Blooming", "artist": "Jeff Goldblum & The Mildred Snitzer Orchestra", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "33811797", "cover": ""}, {"id": "seed_0033", "catalogNo": 37, "title": "I Shouldn't Be Telling You This", "artist": "Jeff Goldblum And The Mildred Snitzer Orchestra", "year": "2019", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "14343594", "cover": ""}, {"id": "seed_0034", "catalogNo": 38, "title": "The Best Of John Denver Volume 2", "artist": "John Denver", "year": "1977", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "2576636", "cover": ""}, {"id": "seed_0035", "catalogNo": 39, "title": "Johnny Cash At San Quentin", "artist": "Johnny Cash", "year": "1969", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "8925582", "cover": ""}, {"id": "seed_0036", "catalogNo": 40, "title": "Floating Into The Night", "artist": "Julee Cruise", "year": "2015", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "6621142", "cover": ""}, {"id": "seed_0037", "catalogNo": 41, "title": "A Matter Of Time", "artist": "Laufey", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34915628", "cover": ""}, {"id": "seed_0038", "catalogNo": 42, "title": "Bewitched", "artist": "Laufey", "year": "2023", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "28720624", "cover": ""}, {"id": "seed_0039", "catalogNo": 43, "title": "2", "artist": "Mac DeMarco", "year": "2012", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "19895716", "cover": ""}, {"id": "seed_0040", "catalogNo": 44, "title": "Gunfighter Ballads And Trail Songs", "artist": "Marty Robbins", "year": "1959", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "3518816", "cover": ""}, {"id": "seed_0041", "catalogNo": 45, "title": "All Of Me", "artist": "Masayoshi Takanaka", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34345102", "cover": ""}, {"id": "seed_0042", "catalogNo": 46, "title": "Yourself Or Someone Like You", "artist": "Matchbox Twenty", "year": "2023", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "28575043", "cover": ""}, {"id": "seed_0043", "catalogNo": 47, "title": "So Tonight That I Might See", "artist": "Mazzy Star", "year": "2017", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "33146952", "cover": ""}, {"id": "seed_0044", "catalogNo": 48, "title": "Loveless", "artist": "My Bloody Valentine", "year": "2021", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "18793696", "cover": ""}, {"id": "seed_0045", "catalogNo": 49, "title": "The Black Parade", "artist": "My Chemical Romance", "year": "2015", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "6628223", "cover": ""}, {"id": "seed_0046", "catalogNo": 50, "title": "Altar", "artist": "NewDad", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "35146885", "cover": ""}, {"id": "seed_0047", "catalogNo": 51, "title": "Madra", "artist": "NewDad", "year": "2024", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "29607481", "cover": ""}, {"id": "seed_0048", "catalogNo": 52, "title": "A Fever You Can't Sweat Out", "artist": "Panic! At The Disco", "year": "2017", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "10601866", "cover": ""}, {"id": "seed_0049", "catalogNo": 53, "title": "Paquito Blowin'", "artist": "Paquito D'Rivera", "year": "1981", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "1421334", "cover": ""}, {"id": "seed_0055", "catalogNo": 54, "title": "Bridge Over Troubled Water", "artist": "Simon & Garfunkel", "year": "1970", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "1671969", "cover": ""}, {"id": "seed_0050", "catalogNo": 55, "title": "Graceland", "artist": "Paul Simon", "year": "2017", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "10967094", "cover": ""}, {"id": "seed_0056", "catalogNo": 56, "title": "Simon And Garfunkel's Greatest Hits", "artist": "Simon & Garfunkel", "year": "2018", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "20034580", "cover": ""}, {"id": "seed_0051", "catalogNo": 57, "title": "The Dark Side Of The Moon", "artist": "Pink Floyd", "year": "1973", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "2655031", "cover": ""}, {"id": "seed_0053", "catalogNo": 58, "title": "The Bends", "artist": "Radiohead", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34838990", "cover": ""}, {"id": "seed_0052", "catalogNo": 59, "title": "In Rainbows", "artist": "Radiohead", "year": "", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "29986885", "cover": ""}, {"id": "seed_0054", "catalogNo": 60, "title": "OK Computer", "artist": "Radiohead", "year": "2026", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "38206593", "cover": ""}, {"id": "seed_0057", "catalogNo": 61, "title": "Wor$t Girl In America", "artist": "Slayyyter", "year": "2026", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "36895942", "cover": ""}, {"id": "seed_0058", "catalogNo": 62, "title": "Slowdive", "artist": "Slowdive", "year": "2017", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "10206225", "cover": ""}, {"id": "seed_0059", "catalogNo": 63, "title": "Souvlaki", "artist": "Slowdive", "year": "2011", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "3020028", "cover": ""}, {"id": "seed_0060", "catalogNo": 64, "title": "Black Hole Sun", "artist": "Soundgarden", "year": "1994", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "4685802", "cover": ""}, {"id": "seed_0062", "catalogNo": 65, "title": "I Can’t Let Go", "artist": "Suki Waterhouse", "year": "2022", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34711140", "cover": ""}, {"id": "seed_0061", "catalogNo": 66, "title": "Loveland", "artist": "Suki Waterhouse", "year": "2026", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "37908612", "cover": ""}, {"id": "seed_0063", "catalogNo": 67, "title": "Memoir Of A Sparklemuffin", "artist": "Suki Waterhouse", "year": "2024", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "31732568", "cover": ""}, {"id": "seed_0064", "catalogNo": 68, "title": "Milk Teeth", "artist": "Suki Waterhouse", "year": "2022", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "25027630", "cover": ""}, {"id": "seed_0065", "catalogNo": 69, "title": "Currents", "artist": "Tame Impala", "year": "", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "22494299", "cover": ""}, {"id": "seed_0070", "catalogNo": 70, "title": "Flood", "artist": "They Might Be Giants", "year": "2014", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "6226329", "cover": ""}, {"id": "seed_0071", "catalogNo": 71, "title": "The Great Tom Jones", "artist": "Tom Jones", "year": "1969", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "2545858", "cover": ""}, {"id": "seed_0079", "catalogNo": 72, "title": "Blurryface", "artist": "Twenty One Pilots", "year": "2015", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "7221346", "cover": ""}, {"id": "seed_0072", "catalogNo": 73, "title": "Breach", "artist": "Twenty One Pilots", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "35074151", "cover": ""}, {"id": "seed_0073", "catalogNo": 74, "title": "Clancy", "artist": "Twenty One Pilots", "year": "2024", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "30763932", "cover": ""}, {"id": "seed_0074", "catalogNo": 75, "title": "Location Sessions", "artist": "Twenty One Pilots", "year": "2021", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "20737000", "cover": ""}, {"id": "seed_0075", "catalogNo": 76, "title": "Scaled And Icy", "artist": "Twenty One Pilots", "year": "2021", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "21032218", "cover": ""}, {"id": "seed_0077", "catalogNo": 77, "title": "Trench", "artist": "Twenty One Pilots", "year": "2018", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "12619135", "cover": ""}, {"id": "seed_0076", "catalogNo": 78, "title": "Trench 10\" Triplet EP", "artist": "Twenty One Pilots", "year": "2018", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "12619209", "cover": ""}, {"id": "seed_0078", "catalogNo": 79, "title": "Vessel", "artist": "Twenty One Pilots", "year": "2016", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "9727750", "cover": ""}, {"id": "seed_0080", "catalogNo": 80, "title": "Sweet '17 Singles", "artist": "Twin Peaks", "year": "2018", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "11262483", "cover": ""}, {"id": "seed_0081", "catalogNo": 81, "title": "In Case I Make It,", "artist": "Will Wood", "year": "2025", "genre": "", "category": "album", "tracklist": [], "notes": "", "discogsId": "34531981", "cover": ""}, {"id": "seed_0108", "catalogNo": 82, "title": "Alan Wake II", "artist": "Various", "year": "2025", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "34013337", "cover": ""}, {"id": "seed_0099", "catalogNo": 83, "title": "Baby Driver (Music From The Motion Picture)", "artist": "Various", "year": "2017", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "10548165", "cover": ""}, {"id": "seed_0102", "catalogNo": 84, "title": "Baby Driver Volume 2: The Score For A Score", "artist": "Various", "year": "2018", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "11872844", "cover": ""}, {"id": "seed_0104", "catalogNo": 85, "title": "Music from the Motion Picture Soundtrack-Back To The Future", "artist": "Various", "year": "2021", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "18213352", "cover": ""}, {"id": "seed_0082", "catalogNo": 86, "title": "Back To The Future: The Musical", "artist": "\"Back to The Future\" Original Cast", "year": "2022", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "24930179", "cover": ""}, {"id": "seed_0083", "catalogNo": 87, "title": "Blue Velvet (Original Motion Picture Soundtrack)", "artist": "Angelo Badalamenti", "year": "2025", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "33622500", "cover": ""}, {"id": "seed_0093", "catalogNo": 88, "title": "Cabaret - Original Soundtrack Recording", "artist": "Ralph Burns", "year": "1972", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "628041", "cover": ""}, {"id": "seed_0098", "catalogNo": 89, "title": "Challengers", "artist": "Trent Reznor & Atticus Ross", "year": "2024", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "32324559", "cover": ""}, {"id": "seed_0089", "catalogNo": 90, "title": "The End Of The F***ing World (Original Songs and Score)", "artist": "Graham Coxon", "year": "2018", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "11735148", "cover": ""}, {"id": "seed_0090", "catalogNo": 91, "title": "A Symphonic Celebration (Music From The Studio Ghibli Films Of Hayao Miyazaki)", "artist": "Joe Hisaishi, Royal Philharmonic Orchestra", "year": "2023", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "28454119", "cover": ""}, {"id": "seed_0111", "catalogNo": 92, "title": "Grease (The Original Soundtrack From The Motion Picture)", "artist": "Various", "year": "1978", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "745340", "cover": ""}, {"id": "seed_0105", "catalogNo": 93, "title": "Guardians Of The Galaxy Awesome Mix Vol. 1", "artist": "Various", "year": "2014", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "27100032", "cover": ""}, {"id": "seed_0106", "catalogNo": 94, "title": "Guardians Of The Galaxy Vol. 2 Awesome Mix Vol. 2", "artist": "Various", "year": "2017", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "10689352", "cover": ""}, {"id": "seed_0088", "catalogNo": 95, "title": "I Am Rapture Rapture Is Me (Official Bioshock® Score) / Sounds From The Lighthouse (Official Bioshock® 2 Score)", "artist": "Garry Schyman", "year": "2010", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "2319572", "cover": ""}, {"id": "seed_0107", "catalogNo": 96, "title": "La La Land (Original Motion Picture Soundtrack)", "artist": "Various", "year": "2016", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "25925359", "cover": ""}, {"id": "seed_0103", "catalogNo": 97, "title": "Living the Dream: Music From David Lynch's Films", "artist": "Various", "year": "2026", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "37268949", "cover": ""}, {"id": "seed_0087", "catalogNo": 98, "title": "Minecraft Volume Alpha", "artist": "C418", "year": "2021", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "19331110", "cover": ""}, {"id": "seed_0096", "catalogNo": 99, "title": "The Muppet Show", "artist": "The Muppets", "year": "1977", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "606457", "cover": ""}, {"id": "seed_0095", "catalogNo": 100, "title": "The Muppet Show 2", "artist": "The Muppets", "year": "1978", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "1355282", "cover": ""}, {"id": "seed_0112", "catalogNo": 101, "title": "The Muppets - The Green Album", "artist": "Various", "year": "2025", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "33934101", "cover": ""}, {"id": "seed_0097", "catalogNo": 102, "title": "Over The Garden Wall", "artist": "The Petrojvic Blasting Company", "year": "2016", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "9107689", "cover": ""}, {"id": "seed_0094", "catalogNo": 103, "title": "Paris, Texas (Original Motion Picture Soundtrack)", "artist": "Ry Cooder", "year": "2025", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "34163896", "cover": ""}, {"id": "seed_0113", "catalogNo": 104, "title": "Disney Music from Peter Pan", "artist": "Various", "year": "2016", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "9385463", "cover": ""}, {"id": "seed_0092", "catalogNo": 105, "title": "Rogue One: A Star Wars Story", "artist": "Michael Giacchino", "year": "2017", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "10162444", "cover": ""}, {"id": "seed_0109", "catalogNo": 106, "title": "Sinners (Original Motion Picture Soundtrack)", "artist": "Various", "year": "2025", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "35215780", "cover": ""}, {"id": "seed_0091", "catalogNo": 107, "title": "Star Wars: The Force Awakens (Original Motion Picture Soundtrack)", "artist": "John Williams", "year": "2016", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "8478391", "cover": ""}, {"id": "seed_0100", "catalogNo": 108, "title": "Suicide Squad (The Album)", "artist": "Various", "year": "2016", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "9397049", "cover": ""}, {"id": "seed_0101", "catalogNo": 109, "title": "The Twilight Saga: New Moon - Original Motion Picture Soundtrack", "artist": "Various", "year": "2024", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "30953605", "cover": ""}, {"id": "seed_0085", "catalogNo": 110, "title": "Music From Twin Peaks", "artist": "Angelo Badalamenti", "year": "2020", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "15908168", "cover": ""}, {"id": "seed_0110", "catalogNo": 111, "title": "Twin Peaks (Music From The Limited Event Series)", "artist": "Various", "year": "2017", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "10889050", "cover": ""}, {"id": "seed_0084", "catalogNo": 112, "title": "Twin Peaks - Fire Walk With Me (Music From The Motion Picture Soundtrack)", "artist": "Angelo Badalamenti", "year": "2020", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "16168624", "cover": ""}, {"id": "seed_0086", "catalogNo": 113, "title": "Twin Peaks: Season Two Music And More", "artist": "Angelo Badalamenti, David Lynch", "year": "2019", "genre": "", "category": "soundtrack", "tracklist": [], "notes": "", "discogsId": "13760644", "cover": ""}];
+
+let albums = [];
+let curatorMode = false;
+let activeFilter = 'all';
+let searchTerm = '';
+
+const grid = document.getElementById('grid');
+const modalHost = document.getElementById('modal-host');
+const toastHost = document.getElementById('toast-host');
+const addBtn = document.getElementById('add-btn');
+const curatorBtn = document.getElementById('curator-btn');
+const curatorBanner = document.getElementById('curator-banner');
+
+const CLASSIC_PALETTE = [
+  {sleeve:'#C2521E', label:'#3B2415'},
+  {sleeve:'#D9A441', label:'#3B2415'},
+  {sleeve:'#5C6B2F', label:'#2A5C55'},
+  {sleeve:'#2A5C55', label:'#3B2415'},
+  {sleeve:'#9C3E14', label:'#3B2415'},
+  {sleeve:'#3B2415', label:'#9C3E14'},
+];
+
+const JAZZ_PALETTE = [
+  {sleeve:'#8B3A3A', label:'#2B1420'},
+  {sleeve:'#6A4C93', label:'#2B1420'},
+  {sleeve:'#4C7A5A', label:'#2B1420'},
+  {sleeve:'#B8863A', label:'#2B1420'},
+  {sleeve:'#3D5A73', label:'#2B1420'},
+  {sleeve:'#7A3B57', label:'#2B1420'},
+];
+
+function activePalette(){
+  return (currentTheme.logoPreset === 'jazz') ? JAZZ_PALETTE : CLASSIC_PALETTE;
+}
+
+function hashStr(s){
+  let h = 0;
+  for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; }
+  return h;
+}
+function comboFor(album){
+  const palette = activePalette();
+  return palette[hashStr(album.title+album.artist) % palette.length];
+}
+function initials(album){
+  return album.title.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+}
+function escapeHtml(s){
+  return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+const COVER_PATCH = {"seed_0001": "https://i.discogs.com/P4GDLbE_Jm3NNCh5hlTXCghoKSqxZu1Gq_CFQCrfeyQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0MTY3/ODQ0LTE3NDk4NDI3/MzctODczNy5qcGVn.jpeg", "seed_0002": "https://i.discogs.com/05JFlpowSqnYrhjF5yr6gAxWlFdXhMlxyK5YgBbGOxw/rs:fit/g:sm/q:90/h:225/w:217/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2MTM2/MjEtMTM5ODAwNDUz/Mi01NDgyLmpwZWc.jpeg", "seed_0003": "https://i.discogs.com/rzORQcK2cVKwD5psYp4nx8KwVutinWGvIVJ4yP4sJfs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxOTQz/ODMzLTE3MzU5MDU1/NzAtNzA1OC5qcGVn.jpeg", "seed_0004": "https://i.discogs.com/tBYweIG-XbPpfV7R7BKONnO6TuCyzMiv0M--dLMR-LQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMjQy/NDExLTE1NTA3NjMw/MDAtMzkzOS5qcGVn.jpeg", "seed_0005": "https://i.discogs.com/tBYweIG-XbPpfV7R7BKONnO6TuCyzMiv0M--dLMR-LQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzMjQy/NDExLTE1NTA3NjMw/MDAtMzkzOS5qcGVn.jpeg", "seed_0006": "https://i.discogs.com/Ex4paqVOvdm9wXYqozOL-ipkswsU8DkHNW1NEufxHiE/rs:fit/g:sm/q:90/h:586/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzODA5/ODQ0LTE3NDU3NzY2/MzQtOTM5NS5qcGVn.jpeg", "seed_0007": "https://i.discogs.com/I70WMFeX2kIehhJbzariTwa_KlGuaDeSq51kGTYLpAk/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxMjc1/OTctMTQ3NTI0Nzcx/OS01NDAzLmpwZWc.jpeg", "seed_0008": "https://i.discogs.com/3q8KELPKfs9jxE9PlEm1uQPI4Z6vewequ62vadVgN5Q/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODc3/Mjk5LTE1MjM5NTY0/NTMtNzc4OC5qcGVn.jpeg", "seed_0009": "https://i.discogs.com/9H9LHVeColf17csMjufAlIGnboaJ_fJaQhWyYqswxWE/rs:fit/g:sm/q:90/h:600/w:598/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc2OTUy/ODktMTY0MzM3NTUy/Ni02MTQ1LmpwZWc.jpeg", "seed_0010": "https://i.discogs.com/Sdj1Q94t1T0HB8YHj8gCMl3j7p0Xgh3yTLMfKjPA0QU/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1ODI3/ODQ0LTE2NzQyMjk3/OTQtNDI1Mi5qcGVn.jpeg", "seed_0011": "https://i.discogs.com/-7CmAlL8SnTF1gw7KyliW7t5nrGQyzBF6oBtZNU3OvE/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwMTIx/OC0xMzI0MjIzOTY3/LmpwZWc.jpeg", "seed_0012": "https://i.discogs.com/UOd_YbhwrZ2CHgHJUGPYhxj5dmFPc_5IB9MeH-hxBq0/rs:fit/g:sm/q:90/h:600/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI3NDk4/OTM5LTE2ODc3OTIz/MzItNDI3My5qcGVn.jpeg", "seed_0013": "https://i.discogs.com/HlB9NTZQuoMwePISTrWptomzU6bRRylsfD4cPt8lpvw/rs:fit/g:sm/q:90/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5ODM4/MzctMTQ3Mjc0OTA5/NC02NTU0LmpwZWc.jpeg", "seed_0014": "https://i.discogs.com/p-NWorOajU3Ai19spn7FSfp2IaPJpBHkQQzo2wzAzgE/rs:fit/g:sm/q:90/h:319/w:314/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxMDU5/NzgtMTMxNjAyODY2/MS5qcGVn.jpeg", "seed_0015": "https://i.discogs.com/CWcK4nNmxdXseiZigZ51Fq12sFmUQuRY4MmNbzhHLVs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyODIw/MTItMTY0MDA5Nzg0/My01NDQ2LmpwZWc.jpeg", "seed_0016": "https://i.discogs.com/QRa0BjQOZURpLCJ9-9NozJmdZGcF1XgtoDPvUKtRV70/rs:fit/g:sm/q:90/h:586/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyODAx/MDQ2LTE3MzY2NDUz/MDgtODk2Mi5qcGVn.jpeg", "seed_0017": "https://i.discogs.com/vgOgvCfMM5a8UMutESUsDIo-c7WJwTGYAvC80hOCyl8/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyNTkx/ODg5LTE3NDM3NDA2/MDEtNTMzNS5qcGVn.jpeg", "seed_0018": "https://i.discogs.com/QwmEUPbWD5FkEJiL2Q2T8ejqAOlZKBFcOWfiwFP3B-s/rs:fit/g:sm/q:90/h:566/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MzQw/MzgyLTE3ODA2OTIy/OTMtODYxMS5qcGVn.jpeg", "seed_0019": "https://i.discogs.com/n4L8G2GlGPFwuB5-SFCDVEMiaBJlIlpN2LhZ2xFp-1E/rs:fit/g:sm/q:90/h:600/w:568/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NTcx/NTYwLTE3NTI4MjA2/MzctMTEzNS5qcGVn.jpeg", "seed_0020": "https://i.discogs.com/4DpexCg_iyhZf_sXJ-VH2sdpB-ICbxX41IuQTf2l41A/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3NzM0/MTM4LTE3ODI1NzA4/MTYtMjE2My5qcGVn.jpeg", "seed_0021": "https://i.discogs.com/sdBAQ3s42SUeJy_BzIRbSY29eicJYcWtTHjv6vK2MWo/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNTQx/MjkzLTE3NDkwOTc0/ODYtNjQwMy5wbmc.jpeg", "seed_0022": "https://i.discogs.com/iPNVWk7jBbosNWFEzVBdH7W53JNVxFz4gX3B9owWCPk/rs:fit/g:sm/q:90/h:600/w:389/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MDM3/NzM3LTE1ODU5MDgy/NzEtNDIxNi5qcGVn.jpeg", "seed_0023": "https://i.discogs.com/Mxtr0t8oMV4ttf4PQWZcMwDxFOHbO0UdfTvIY9xIHWU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NTE3/NzkxLTE3NTIzMDc2/MjEtNzY2Ny5qcGVn.jpeg", "seed_0024": "https://i.discogs.com/JXNMRCUALWv4Gf0DQSuSihm8PQt-0cJqmlVRD4L2bnI/rs:fit/g:sm/q:90/h:515/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2Mjk3/MjQwLTE2ODIxMTE5/NDItMjkxNS5qcGVn.jpeg", "seed_0025": "https://i.discogs.com/aK6g7C7zceM8vQOzW9F8_3KlCvpVpT6em99OHzn5dqI/rs:fit/g:sm/q:90/h:600/w:594/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MDcx/MTI1LTE3ODU5Njg5/MTMtNTEyNC5qcGVn.jpeg", "seed_0026": "https://i.discogs.com/Szq_aXESdMgVmJr4stGe0sHG8hYjwhL0Ndyl9G4UBLk/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2Mzc2/Njk1LTE3NjQ2MTUw/NzctMjY0My5qcGVn.jpeg", "seed_0027": "https://i.discogs.com/EZ4MZ41Pd6g1FdyglRL-c5Khf-1f7z52ZTnUNksbvCg/rs:fit/g:sm/q:90/h:600/w:598/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc4MTY5/MzItMTQ0OTQwMzA2/OS02MzIzLmpwZWc.jpeg", "seed_0028": "https://i.discogs.com/LOh_fSd7ETiYmhZj3PpifGRhmqvudIy9xYXP0DSOELM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU0MjM4/NDQtMTQwNTI3MjU5/MC05Njg2LmpwZWc.jpeg", "seed_0029": "https://i.discogs.com/qtmAQOMwas5kub2hVJu_phCtisaBegXtBL4M9Desl_c/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc4MzMw/OTUtMTQ0OTgzMjM5/Mi03NDY3LmpwZWc.jpeg", "seed_0030": "https://i.discogs.com/wgkgYcW8eNnpJUWPgYFs-EAk0wxur6pM7gnNe9pfSMg/rs:fit/g:sm/q:90/h:599/w:595/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1ODkz/MjM1LTE2NzQ3NTE5/NTQtODkyMS5qcGVn.jpeg", "seed_0031": "https://i.discogs.com/-semDT35GGIm-UWZOmt33877nddES7Y_DtTmZ-sK_ZI/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NDA3/NDk5LTE3NzA1ODgy/NTEtOTI1OC5qcGVn.jpeg", "seed_0032": "https://i.discogs.com/r7MmfOWurvE0kkuLiG92jwzoiTyMm4gFYxPFf6d9nEw/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzODEx/Nzk3LTE3NjkzOTUx/ODktNDIyNC5qcGVn.jpeg", "seed_0033": "https://i.discogs.com/FF7yigcueGiTDoe9p1KrOK0wMwSCnhOOfvgqhU1W41M/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MzQz/NTk0LTE3NjkzOTMx/MDgtMzY4NS5qcGVn.jpeg", "seed_0034": "https://i.discogs.com/mgpXMv9Rvii64Ur25Xp8OQGRpzT6HFunpynOTGhNoH0/rs:fit/g:sm/q:90/h:401/w:400/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1NzY2/MzYtMTM2NDcyOTY3/OS0yODExLmpwZWc.jpeg", "seed_0035": "https://i.discogs.com/witdfunh6QGYG3_XBghK-olOgYk8s1ogZ9EOAZPNBl4/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5MjU1/ODItMTQ3MTYyOTA2/NC02NDExLmpwZWc.jpeg", "seed_0036": "https://i.discogs.com/PvuRNgvByxaDECItCRdbUm6125YNx0ub5BopJh2bwzE/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY2MjEx/NDItMTY5MDI5MjEw/NC04MzI2LmpwZWc.jpeg", "seed_0037": "https://i.discogs.com/LSlkCiFNjjty8rvXX7L8ha2rYVybhrCrUqqLYX-VYXQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0OTE1/NjI4LTE3NTYwOTgz/ODQtNTA4OC5qcGVn.jpeg", "seed_0038": "https://i.discogs.com/OYWIOr8Ym0mBJCAnGcXaI9pljMU8V_BvH2WoKy2n9zY/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4NzIw/NjI0LTE3MDgxOTc2/NzAtMTE5Ni5qcGVn.jpeg", "seed_0039": "https://i.discogs.com/_DqKueWji_Gk2slxbkmez-0Apj9onILjDKzw2z1mCsI/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5ODk1/NzE2LTE2MjkyMjUy/MjItODIwOS5qcGVn.jpeg", "seed_0040": "https://i.discogs.com/EN5Le2fX7vT6s57EtIMySNOakECwGfUWpM8IMD6SXXY/rs:fit/g:sm/q:90/h:575/w:570/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1MTg4/MTYtMTMzMzk4MTI2/Ni5qcGVn.jpeg", "seed_0041": "https://i.discogs.com/fAs-pQuyJtro7A-6NCxmHcDKQtDEyCkgUU-p4x6wIUs/rs:fit/g:sm/q:90/h:600/w:593/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0MzQ1/MTAyLTE3NzAwNTIz/NzUtNjM0MS5qcGVn.jpeg", "seed_0042": "https://i.discogs.com/vOHE56WUChar6ahahgI49XS-O_Qsb575m6QLlCH4R60/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4NTc1/MDQzLTE2OTcxNTUz/NzgtMjgxMi5qcGVn.jpeg", "seed_0043": "https://i.discogs.com/lWnEJimwhTYgtjZ2csCkTshYBuIDk9ylOzTT41UZXC0/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzMTQ2/OTUyLTE3Mzk2MzU1/ODUtOTEwOC5qcGVn.jpeg", "seed_0044": "https://i.discogs.com/xDOz74D74cZERv9ROZqu5TDVymW7HQXbcrlVNmBqsYI/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4Nzkz/Njk2LTE2MjE2NDA3/MzItMzAwNS5qcGVn.jpeg", "seed_0045": "https://i.discogs.com/nSVBYDh-UEEGI9aGCLgc1wXW8YtaGzETsC1_WmK2Mys/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY2Mjgy/MjMtMTQ3MzM2ODMy/NC0xNjcxLmpwZWc.jpeg", "seed_0046": "https://i.discogs.com/Vnhh3tEdQGRgMawo9czA8ypn-GEiXCbeT4Cmsnf39kg/rs:fit/g:sm/q:90/h:600/w:595/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1MTQ2/ODg1LTE3NTk1ODMz/NzgtNTIzMC5qcGVn.jpeg", "seed_0047": "https://i.discogs.com/2BJX5D9C_KQXu4AM0moNzUwsxtDckDmgCEQlDqcR-FU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5NjA3/NDgxLTE3MDYzNTI3/MjEtNjUyNy5qcGVn.jpeg", "seed_0048": "https://i.discogs.com/8S_QxZxS5TyzkSqPIydyiT4Txbyp4Mc3a_-HLNeLaB4/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNjAx/ODY2LTE1MDA3NDIy/MjUtMjQwMS5qcGVn.jpeg", "seed_0049": "https://i.discogs.com/6AFnobj5az-waqZQZR57fPi9W6XKacNqAiI6A_407aw/rs:fit/g:sm/q:90/h:586/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MjEz/MzQtMTQxNzExMjc3/MC05MzUwLmpwZWc.jpeg", "seed_0050": "https://i.discogs.com/uOwlc1ScS39OJ6Rc6vR4oZuf31Zc_efZK2DktKrkxq8/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwOTY3/MDk0LTE1NDkwMTQ4/MjQtMzAzNi5qcGVn.jpeg", "seed_0051": "https://i.discogs.com/kis_mvG85iZXVQ8CQsu6ZnRWxQYbAFtFNlrNMYN2pok/rs:fit/g:sm/q:90/h:600/w:587/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI2NTUw/MzEtMTY0NjA1OTM0/NC00MzE3LmpwZWc.jpeg", "seed_0052": "https://i.discogs.com/iWfirVfKTNvDrTqDhiEHWmt-xzRqnckL2T3xWtF-yD0/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI5OTg2/ODg1LTE3MTMxMDk5/MjItMjgzMS5qcGVn.jpeg", "seed_0053": "https://i.discogs.com/AjTjg6jYHJ3sJ_uPS-daABS8F1BvDk7Dx5ujpWuMFw8/rs:fit/g:sm/q:90/h:592/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0ODM4/OTkwLTE3NTUzOTgw/OTMtNjUwNy5qcGVn.jpeg", "seed_0054": "https://i.discogs.com/U4hEGrMJrnJ_FI81MvQ9-SDoZ-K8VLRcIazVfEWbA1k/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM4MjA2/NTkzLTE3ODcyODc2/MzQtNDc5Ni5qcGVn.jpeg", "seed_0055": "https://i.discogs.com/lTWCmRxdm3biSI5LDTXOMU_srfTiEnF8qEFG-tN6-RU/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2NzE5/NjktMTI4NzM1MTE5/Ni5qcGVn.jpeg", "seed_0056": "https://i.discogs.com/uDPYq_bU3dKoruMyJ98l9b0EqqXqjCwwI9YMQgJw50Y/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwMDM0/NTgwLTE2MzAyMTg0/MzMtOTAxNi5qcGVn.jpeg", "seed_0057": "https://i.discogs.com/c6-t3UtIGhvAwaoN8CvJBrXPs51SiLfEzZTPlVmdqSg/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2ODk1/OTQyLTE3NzQ2MzM3/NzgtNjc4Mi5qcGVn.jpeg", "seed_0058": "https://i.discogs.com/VhJS7bhM8f1JJnUpfA7cv0OCK1mUgRWHgJsz5S2ty08/rs:fit/g:sm/q:90/h:600/w:589/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMjA2/MjI1LTE0OTcyMzU5/NjYtMzA3Mi5qcGVn.jpeg", "seed_0059": "https://i.discogs.com/FMy3IrKVVC-PN9TeWz23u500lmHTXOWioO-2aDaGg1w/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMwMjAw/MjgtMTM5NDU2ODQy/MC01MzMwLmpwZWc.jpeg", "seed_0060": "https://i.discogs.com/JuZett_ZBvgkmPqpqsIIVnMBYDH9dcoox_HwpamT0eo/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ2ODU4/MDItMTcwOTI4MzEz/Ny03NzE4LmpwZWc.jpeg", "seed_0061": "https://i.discogs.com/IcifDRxORgi1eNaXXUbyF3U7aKIxs0_LyPgkVU4fsZw/rs:fit/g:sm/q:90/h:577/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3OTA4/NjEyLTE3ODQzMjIw/MTEtMzg3MC5qcGVn.jpeg", "seed_0062": "https://i.discogs.com/e6l-Zi3pj8I4FpBNstSdD5u5seNsgYjm4x-Tq3I70Dw/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NzEx/MTQwLTE3NTQxMzg4/MTYtNTQ0My5qcGVn.jpeg", "seed_0063": "https://i.discogs.com/tcWSHQNs7Zz4JmDEV8BRkMVQxIP_pPxYFUS_qRYXNiQ/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMxNzMy/NTY4LTE3MjYzMjYw/MDUtMTIwOC5qcGVn.jpeg", "seed_0064": "https://i.discogs.com/2jTqHUINDuF4xrmYSLHTV_RSNUeoHVBez05xAoAc42E/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1MDI3/NjMwLTE2NzU3MjQ3/NDYtNDU0OS5qcGVn.jpeg", "seed_0065": "https://i.discogs.com/o9J4d6E2hLPfRn6OzWuyFtoR_UzeiyrSBePcJ7ja5Og/rs:fit/g:sm/q:90/h:600/w:597/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIyNDk0/Mjk5LTE3NTMyMTM0/MTMtOTAxNC5qcGVn.jpeg", "seed_0066": "https://i.discogs.com/IPYV7JcaA62RXNFoZOPEuUat1LlYvzKwx5-stNWFc4Q/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQ2MDc1/MDYtMTM3NjE2MDk3/My02NDQ4LmpwZWc.jpeg", "seed_0067": "https://i.discogs.com/CzCty0z_Vq8DdV-S0jzyYaR9AZCNyLQ7nywRdlhAmwU/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQxMTMw/NzYtMTU2OTY4MDIz/Mi0zNDY5LmpwZWc.jpeg", "seed_0068": "https://i.discogs.com/gno_l4mvQ050DFehXyNIVryLzrVjscatRURvRX2bZ8c/rs:fit/g:sm/q:90/h:523/w:523/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1Nzk0/OTU3LTE3NjQ0MjEw/OTQtMjEzNS5qcGVn.jpeg", "seed_0069": "https://i.discogs.com/oidCbDjkM4uVD5dw27XY_f3_cR3tqj7aOSR_KstvHdE/rs:fit/g:sm/q:90/h:592/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MjE0/NjMxLTE1ODgyMDI3/MzgtOTUwNi5qcGVn.jpeg", "seed_0070": "https://i.discogs.com/APCwjfSzGfSdPhPL0mRZVviitKVAhFgTqo8qWS6twsE/rs:fit/g:sm/q:90/h:400/w:401/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYyMjYz/MjktMTQxNDIyNjg4/My01Mjg4LmpwZWc.jpeg", "seed_0071": "https://i.discogs.com/8xNjmIITIHoIHDZO0h9po38ncuXB0etG8q--_dWK6xE/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1NDU4/NTgtMTM4NjY5OTU1/MS00MDkyLmpwZWc.jpeg", "seed_0072": "https://i.discogs.com/HZTXRYGp8Mx-rQ9nkzxFAUqck_Hw4Y1KgZzwo8QX6oU/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1MDc0/MTUxLTE3NTc2MzAy/MzMtOTEyMS5qcGVn.jpeg", "seed_0073": "https://i.discogs.com/w8XsuwirMwSuvS39l5K34tebgQUTjKzHr-A2tAs23z8/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMwNzYz/OTMyLTE3MTc2MDA5/NTUtMTgwOS5qcGVn.jpeg", "seed_0074": "https://i.discogs.com/DIpt-ZK0UPRkAoxs7zXWENUul-gXnyqEgPRE5MWJwuQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIwNzM3/MDAwLTE2MzczMjQw/OTEtMzk0MC5qcGVn.jpeg", "seed_0075": "https://i.discogs.com/XvoYmgILIgB6SzN10yBMu8Z5SsEVAS9yEXuiGpdezHk/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxMDMy/MjE4LTE2NDA2OTEw/NzMtMTE0NC5qcGVn.jpeg", "seed_0076": "https://i.discogs.com/OT7dnyPgXkdAvZ_lVRwKXMLDUdW3Oxr8PkPlcfZyEUU/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNjE5/MjA5LTE1NTI3OTU0/MTktOTQ3MS5qcGVn.jpeg", "seed_0077": "https://i.discogs.com/TkXzwKhCHEAhofLseeDdHiR6O9NoU0Y8Ze0JM6aAQDM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyNjE5/MTM1LTE1Mzg3MzA5/NjEtNjc2Mi5qcGVn.jpeg", "seed_0078": "https://i.discogs.com/0nUv7yxek4Pa9eVAeMONLlv9jupNV1re12tmo49P4oQ/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk3Mjc3/NTAtMTQ4NTQyNzQ1/NC0zMTk1LmpwZWc.jpeg", "seed_0079": "https://i.discogs.com/yxX98Rjw5_KL2ykk4wXLOn-A-zPbq4Ri12XK_i_80ws/rs:fit/g:sm/q:90/h:591/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyMjEz/NDYtMTQ1MjMyNDU5/MS00MjY1LmpwZWc.jpeg", "seed_0080": "https://i.discogs.com/JTkM-I9gtgZL2njT1c5CF5fsGOzzzXjlygkPPWId_4g/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExMjYy/NDgzLTE1MTI5NTE0/NzktNDEyOC5qcGVn.jpeg", "seed_0081": "https://i.discogs.com/jw00Z4RtYFSoJeJFmLnW6cV6WBsVdxqGu4EGUFZWMn4/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0NTMx/OTgxLTE3NTI0NDc5/NDQtNTM4Ni5qcGVn.jpeg", "seed_0082": "https://i.discogs.com/xzLlJDsuJLxBS3gSSEnxW6uVewXAJVdDcbxbuH1jR7M/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI0OTMw/MTc5LTE2NjY3MTAy/NjMtODk0NC5qcGVn.jpeg", "seed_0083": "https://i.discogs.com/Od7pZeV1inLpuaFFTl3setM4CpCa6v4Pi-di1DBYExg/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzNjIy/NTAwLTE3NDM5NjU4/MzItMTg2OS5wbmc.jpeg", "seed_0084": "https://i.discogs.com/LgMUmZ72SVD5IdqNcFTDci37_AcyIs5N1WFVnBNHGSE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2MTY4/NjI0LTE2MzY4NDg1/NzEtNTIwMC5qcGVn.jpeg", "seed_0085": "https://i.discogs.com/EeqxwCnzbivKwt_iCyXq_3V9dOCCR2Fi7ryZUa2emZA/rs:fit/g:sm/q:90/h:594/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1OTA4/MTY4LTE1OTk5OTY5/NjQtMzMwOS5qcGVn.jpeg", "seed_0086": "https://i.discogs.com/7jOhOMQxkqMoGgYRgxFsIbLAokDzP4qT9tAaoqTb4Fc/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNzYw/NjQ0LTE3NjQ0NjY0/ODYtOTgxOC5qcGVn.jpeg", "seed_0087": "https://i.discogs.com/z80d460wuGoV5HNnzxn5iaQa6Enqcp6ikbt05433QY4/rs:fit/g:sm/q:90/h:538/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5MzMx/MTEwLTE2MjUwNzQ5/NDEtMTA5OC5qcGVn.jpeg", "seed_0088": "https://i.discogs.com/2ZHeZQYabr5jPpPpzODxsWAu45hpv7DTgNQLuWN10gE/rs:fit/g:sm/q:90/h:600/w:596/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzMTk1/NzItMTM5MDI3NTE1/MS04NDQ5LmpwZWc.jpeg", "seed_0089": "https://i.discogs.com/w3XiM55Lx4I4r8E989l0rakpUfG2szfAKSFfc49A5dE/rs:fit/g:sm/q:90/h:568/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNzM1/MTQ4LTE3MTA5NjAw/NzAtMjcyMC5qcGVn.jpeg", "seed_0090": "https://i.discogs.com/FqvDX8gSHGGRhlQIr9QTJ02IVEh2Qq37kuN9x7xT79s/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4NDU0/MTE5LTE2OTYwNzc4/OTMtNTEwMC5qcGVn.jpeg", "seed_0091": "https://i.discogs.com/pymvZofwGjObW3PeTif6C7mzRCfpdOwKYARHvmY8RKk/rs:fit/g:sm/q:90/h:588/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg0Nzgz/OTEtMTc4MDc2NDk3/OC01MjkzLmpwZWc.jpeg", "seed_0092": "https://i.discogs.com/6U2Epg0FpuGtwlhpdbI6Sn62ybEu6YlTshpOMy9waog/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMTYy/NDQ0LTE1MDUxMjE2/MzEtOTQ5My5qcGVn.jpeg", "seed_0093": "https://i.discogs.com/N1k2IZhbI0W_bQ_R2YXfaVSOEhUHgNNI9Rshsx1yw-o/rs:fit/g:sm/q:90/h:593/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYyODA0/MS0xNjIxMjc3NDI5/LTM3OTcuanBlZw.jpeg", "seed_0094": "https://i.discogs.com/NOPoEkUTDu5IkVQy00AON_sIew2vPnEBJFTPuzsB7to/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0MTYz/ODk2LTE3NDg5NTYx/MzUtNjg1NC5qcGVn.jpeg", "seed_0095": "https://i.discogs.com/7NNQ6b0v8nEoVL_hNAtgTKwHbNsyFcFVQ6n_oUyONBs/rs:fit/g:sm/q:90/h:592/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEzNTUy/ODItMTQwNDExOTc2/My02MDMxLmpwZWc.jpeg", "seed_0096": "https://i.discogs.com/pm3C0eBVg7BAc6xbSHo7LbWqGsLYjtVQQMqL3nFKWPA/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwNjQ1/Ny0xNDYyMDUwNDgx/LTUxNTQuanBlZw.jpeg", "seed_0097": "https://i.discogs.com/Zjn38GvNfBVGLWPrsaVZMt05Z98M46g4rhEttUxP6Hk/rs:fit/g:sm/q:90/h:600/w:598/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkxMDc2/ODktMTU3OTE0ODY1/Ny00MTkwLmpwZWc.jpeg", "seed_0098": "https://i.discogs.com/w2njvQxOeEgH7gmu6CyRv6B_Ll2VHlHt8HS9IAE_C5Q/rs:fit/g:sm/q:90/h:585/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMyMzI0/NTU5LTE3MzIwNDg1/NzQtMjkwNi5qcGVn.jpeg", "seed_0099": "https://i.discogs.com/659LUV6r0woG8qSTYJt9OfMPm66EqNcLw-8Xa6t6lJs/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNTQ4/MTY1LTE2NDQxNzk5/MTEtNDQ4NS5qcGVn.jpeg", "seed_0100": "https://i.discogs.com/qWk37q_DH3k7tjLUf1c69pW6waDaUf7evmdHAEFxdr4/rs:fit/g:sm/q:90/h:600/w:593/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkzOTcw/NDktMTQ3OTgzODc0/My03MjYxLmpwZWc.jpeg", "seed_0101": "https://i.discogs.com/aHzsIOqY3JXwbr3GU9BAVe5clhpYIAPGqkN7km6sCX0/rs:fit/g:sm/q:90/h:579/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMwOTUz/NjA1LTE3NTQ5NTE5/NTAtMzQ1OC5qcGVn.jpeg", "seed_0102": "https://i.discogs.com/EaJUbJTFF0OJl7xj1v6l5IzbcZa-SIiv2gRpcAMcWIA/rs:fit/g:sm/q:90/h:466/w:466/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExODcy/ODQ0LTE1MjQwODc5/MTEtOTU4Mi5qcGVn.jpeg", "seed_0103": "https://i.discogs.com/W64nddkT1yIgsuT4lDzS8quy-svyesy40hGe9h46H2g/rs:fit/g:sm/q:90/h:500/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM3MjY4/OTQ5LTE3NzgwOTU0/MTctNDM2My5qcGVn.jpeg", "seed_0104": "https://i.discogs.com/2iEGkL4hyIQFLhQ_N9oLnls6EGr6wKF8_kIcoXhmK3I/rs:fit/g:sm/q:90/h:598/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4MjEz/MzUyLTE2MjY0MDIx/NDEtNDA1OS5qcGVn.jpeg", "seed_0105": "https://i.discogs.com/ZGpnwRsOQU-on1Qrq500cr7iKbnr41E0PW9Z0eRR9UQ/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI3MTAw/MDMyLTE2ODQ1ODI3/OTMtNDE4Ny5qcGVn.jpeg", "seed_0106": "https://i.discogs.com/ftgMlN7dkp0-eXCov2hCIvv-Lr9JW0zw9WKDDkyexdM/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNjg5/MzUyLTE1MDI1Mjg5/MDUtNzgzNC5qcGVn.jpeg", "seed_0107": "https://i.discogs.com/0Mpwujr19gZLQAZaNP48395HV52UVSCtVMespWSnwsI/rs:fit/g:sm/q:90/h:595/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI1OTI1/MzU5LTE2NzUwMDcw/OTctNDE0MC5qcGVn.jpeg", "seed_0108": "https://i.discogs.com/XxtF724rBmjiO45R_vezJUQN5tE1E2v13zWBg9k6pcQ/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM0MDEz/MzM3LTE3NDc1Njcw/OTEtMzAwNS5qcGVn.jpeg", "seed_0109": "https://i.discogs.com/D-lwO4Iw6xDEb8s37kWgjGgPhbLWpzDEA3lhMGy6XB8/rs:fit/g:sm/q:90/h:600/w:599/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM1MjE1/NzgwLTE3Njc0NzMw/ODktMTg1Ny5qcGVn.jpeg", "seed_0110": "https://i.discogs.com/A2-qI5tg9MsvmjLFeL7C-39Mk-1pJdqr7KIH-MRQcHU/rs:fit/g:sm/q:90/h:590/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwODg5/MDUwLTE2MDY5Mjk1/MDEtNDUzMS5qcGVn.jpeg", "seed_0111": "https://i.discogs.com/kqnAjnZc0hqV6IWbnvdBNcU1Mn2BzROji5mfNjQ88kQ/rs:fit/g:sm/q:90/h:600/w:593/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc0NTM0/MC0xMzIwODgwMTky/LmpwZWc.jpeg", "seed_0112": "https://i.discogs.com/vy099xoAK2hOmUoCHQ0uHcKQXAPPO5fgULj7yUjWr08/rs:fit/g:sm/q:90/h:600/w:595/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTMzOTM0/MTAxLTE3NDY4MDM1/OTQtNTgzOS5qcGVn.jpeg", "seed_0113": "https://i.discogs.com/HBgGzX2BKD0qELJ6RwO3mpIDKUHgaCtTMaXioGf1KWk/rs:fit/g:sm/q:90/h:487/w:500/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkzODU0/NjMtMTQ3OTY0Mjg4/NC0yMDc3LmpwZWc.jpeg"};
+
+function applyCoverPatch(){
+  let changed = false;
+  albums.forEach(a => {
+    if(!a.cover && COVER_PATCH[a.id]){
+      a.cover = COVER_PATCH[a.id];
+      changed = true;
+    }
+  });
+  return changed;
+}
+
+const ORDER_PATCH = {"seed_0001": 1, "seed_0066": 2, "seed_0067": 3, "seed_0002": 4, "seed_0003": 5, "seed_0004": 6, "seed_0005": 7, "seed_0006": 8, "seed_0007": 9, "seed_0008": 10, "seed_0009": 11, "seed_0068": 12, "seed_0010": 13, "seed_0011": 14, "seed_0012": 15, "seed_0013": 16, "seed_0014": 17, "seed_0015": 18, "seed_0016": 19, "seed_0017": 20, "seed_0018": 21, "seed_0019": 22, "seed_0021": 23, "seed_0020": 24, "seed_0022": 25, "seed_0023": 26, "seed_0024": 27, "seed_0025": 28, "seed_0026": 29, "seed_0027": 30, "seed_0028": 31, "seed_0029": 32, "seed_0030": 33, "seed_0069": 34, "seed_0031": 35, "seed_0032": 36, "seed_0033": 37, "seed_0034": 38, "seed_0035": 39, "seed_0036": 40, "seed_0037": 41, "seed_0038": 42, "seed_0039": 43, "seed_0040": 44, "seed_0041": 45, "seed_0042": 46, "seed_0043": 47, "seed_0044": 48, "seed_0045": 49, "seed_0046": 50, "seed_0047": 51, "seed_0048": 52, "seed_0049": 53, "seed_0055": 54, "seed_0050": 55, "seed_0056": 56, "seed_0051": 57, "seed_0053": 58, "seed_0052": 59, "seed_0054": 60, "seed_0057": 61, "seed_0058": 62, "seed_0059": 63, "seed_0060": 64, "seed_0062": 65, "seed_0061": 66, "seed_0063": 67, "seed_0064": 68, "seed_0065": 69, "seed_0070": 70, "seed_0071": 71, "seed_0079": 72, "seed_0072": 73, "seed_0073": 74, "seed_0074": 75, "seed_0075": 76, "seed_0077": 77, "seed_0076": 78, "seed_0078": 79, "seed_0080": 80, "seed_0081": 81, "seed_0108": 82, "seed_0099": 83, "seed_0102": 84, "seed_0104": 85, "seed_0082": 86, "seed_0083": 87, "seed_0093": 88, "seed_0098": 89, "seed_0089": 90, "seed_0090": 91, "seed_0111": 92, "seed_0105": 93, "seed_0106": 94, "seed_0088": 95, "seed_0107": 96, "seed_0103": 97, "seed_0087": 98, "seed_0096": 99, "seed_0095": 100, "seed_0112": 101, "seed_0097": 102, "seed_0094": 103, "seed_0113": 104, "seed_0092": 105, "seed_0109": 106, "seed_0091": 107, "seed_0100": 108, "seed_0101": 109, "seed_0085": 110, "seed_0110": 111, "seed_0084": 112, "seed_0086": 113};
+
+function applyOrderPatch(){
+  let changed = false;
+  albums.forEach(a => {
+    const correctNo = ORDER_PATCH[a.id];
+    if(correctNo !== undefined && a.catalogNo !== correctNo){
+      a.catalogNo = correctNo;
+      changed = true;
+    }
+  });
+  return changed;
+}
+
+async function loadAlbums(){
+  try{
+    const res = await storageGet(STORAGE_KEY);
+    if(res && res.value){
+      albums = JSON.parse(res.value);
+    } else {
+      albums = SEED_ALBUMS.slice();
+      await saveAlbums();
+    }
+  }catch(e){
+    albums = SEED_ALBUMS.slice();
+    try{ await saveAlbums(); }catch(e2){}
+  }
+  const coverChanged = applyCoverPatch();
+  const orderChanged = applyOrderPatch();
+  if(coverChanged || orderChanged){
+    try{ await saveAlbums(); }catch(e){}
+  }
+}
+async function saveAlbums(){
+  try{
+    await storageSet(STORAGE_KEY, JSON.stringify(albums));
+  }catch(e){
+    showToast("Couldn't save — try again");
+  }
+}
+function nextCatalogNo(){
+  const max = albums.reduce((m,a)=> Math.max(m, a.catalogNo||0), 0);
+  return max + 1;
+}
+function showToast(msg){
+  toastHost.innerHTML = `<div class="toast">${escapeHtml(msg)}</div>`;
+  setTimeout(()=>{ toastHost.innerHTML=''; }, 2200);
+}
+
+function filteredAlbums(){
+  let list = albums;
+  if(activeFilter !== 'all'){
+    list = list.filter(a => a.category === activeFilter);
+  }
+  if(searchTerm.trim()){
+    const t = searchTerm.trim().toLowerCase();
+    list = list.filter(a =>
+      (a.title||'').toLowerCase().includes(t) ||
+      (a.artist||'').toLowerCase().includes(t) ||
+      (a.genre||'').toLowerCase().includes(t)
+    );
+  }
+  return list.slice().sort((a,b)=> (a.catalogNo||0) - (b.catalogNo||0));
+}
+
+function renderCounts(){
+  document.getElementById('count-album').textContent = albums.filter(a=>a.category==='album').length;
+  document.getElementById('count-soundtrack').textContent = albums.filter(a=>a.category==='soundtrack').length;
+}
+
+function renderGrid(){
+  renderCounts();
+  const list = filteredAlbums();
+  if(albums.length === 0){
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="big-rec"></div>
+        <h3>This crate's empty.</h3>
+        <p>${curatorMode ? 'Add your first record below to get the shelf started.' : 'The curator hasn’t loaded any records yet — check back soon.'}</p>
+      </div>`;
+    return;
+  }
+  if(list.length === 0){
+    grid.innerHTML = `<div class="empty-state"><h3>Nothing matches that.</h3><p>Try a different search or flip to another tab.</p></div>`;
+    return;
+  }
+  grid.innerHTML = list.map(a => {
+    const combo = comboFor(a);
+    return `
+    <button class="card" data-id="${a.id}">
+      <div class="sleeve-wrap">
+        <div class="sleeve" style="background:${combo.sleeve};">
+          ${a.cover ? `<img class="cover-img" src="${escapeHtml(a.cover)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove();">` : ''}
+          <span class="cat-pill ${a.category}">${a.category === 'soundtrack' ? 'OST' : 'LP'}</span>
+        </div>
+        <div class="disc" data-mono="${String(a.catalogNo || 0).padStart(3, '0')}" style="--label-color:${combo.label};"></div>
+      </div>
+      <p class="card-title">${escapeHtml(a.title)}</p>
+      <p class="card-artist">${escapeHtml(a.artist)}${a.year ? ' · ' + escapeHtml(String(a.year)) : ''}</p>
+    </button>`;
+  }).join('');
+
+  grid.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      const album = albums.find(a => a.id === card.dataset.id);
+      if(album) openDetail(album, false);
+    });
+  });
+}
+
+function openDetail(album, dropAnim){
+  const combo = comboFor(album);
+  const tracklist = (album.tracklist||[]);
+  modalHost.innerHTML = `
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true">
+        <button class="modal-close" id="close-modal" aria-label="Close">✕</button>
+        <div class="modal-header">
+          ${album.cover
+            ? `<img class="modal-cover" src="${escapeHtml(album.cover)}" alt="" referrerpolicy="no-referrer" onerror="this.remove();">`
+            : `<div class="modal-disc ${dropAnim ? 'drop' : ''}" data-mono="${String(album.catalogNo || 0).padStart(3, '0')}" style="--label-color:${combo.label};"></div>`}
+          <div>
+            <p class="catalog-no mono">No. ${String(album.catalogNo||0).padStart(3,'0')}</p>
+            <h2 class="modal-title">${escapeHtml(album.title)}</h2>
+            <p class="modal-artist">${escapeHtml(album.artist)}</p>
+          </div>
+        </div>
+        <div class="meta-row">
+          ${album.year ? `<span class="meta-chip">${escapeHtml(String(album.year))}</span>` : ''}
+          ${album.genre ? `<span class="meta-chip">${escapeHtml(album.genre)}</span>` : ''}
+          <span class="meta-chip">${album.category === 'soundtrack' ? 'Soundtrack · Square 3' : 'Album · Squares 1–2'}</span>
+        </div>
+        ${tracklist.length ? `
+          <p class="section-label">Tracklist</p>
+          <ol class="tracklist">${tracklist.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ol>
+        ` : ''}
+        ${album.notes ? `<p class="section-label">Notes</p><p class="notes">${escapeHtml(album.notes)}</p>` : ''}
+        ${curatorMode ? `
+          <div class="modal-actions">
+            <button class="btn" id="edit-btn">Edit</button>
+            <button class="btn danger" id="delete-btn">Remove</button>
+          </div>` : ''}
+      </div>
+    </div>`;
+  document.getElementById('close-modal').onclick = closeModal;
+  document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id === 'overlay') closeModal(); });
+  if(curatorMode){
+    document.getElementById('edit-btn').onclick = () => openForm(album);
+    document.getElementById('delete-btn').onclick = () => {
+      openConfirmModal(`Take "${album.title}" off the shelf?`, async () => {
+        albums = albums.filter(a => a.id !== album.id);
+        await saveAlbums();
+        closeModal();
+        renderGrid();
+        showToast('Removed from the collection');
+      });
+    };
+  }
+}
+
+function closeModal(){ modalHost.innerHTML = ''; }
+
+function openConfirmModal(message, onConfirm){
+  modalHost.innerHTML = `
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true" style="max-width:380px;">
+        <button class="modal-close" id="close-modal" aria-label="Close">✕</button>
+        <p class="notes" style="margin:0.4rem 0 1.2rem; font-style:normal; color:var(--brown);">${escapeHtml(message)}</p>
+        <div class="modal-actions">
+          <button class="btn danger" id="confirm-yes">Yes, remove it</button>
+          <button class="btn" id="confirm-no">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('close-modal').onclick = closeModal;
+  document.getElementById('confirm-no').onclick = closeModal;
+  document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id === 'overlay') closeModal(); });
+  document.getElementById('confirm-yes').onclick = onConfirm;
+}
+
+function openForm(existing){
+  const isEdit = !!existing;
+  const a = existing || { title:'', artist:'', year:'', genre:'', category:'album', tracklist:[], notes:'' };
+  modalHost.innerHTML = `
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true">
+        <button class="modal-close" id="close-modal" aria-label="Close">✕</button>
+        <h2 class="modal-title" style="margin-bottom:1rem;">${isEdit ? 'Edit record' : 'Add a record'}</h2>
+        <form id="album-form">
+          <div class="field-row">
+            <div class="field">
+              <label for="f-title">Title</label>
+              <input id="f-title" required value="${escapeHtml(a.title)}">
+            </div>
+            <div class="field">
+              <label for="f-artist">Artist</label>
+              <input id="f-artist" required value="${escapeHtml(a.artist)}">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="f-year">Year</label>
+              <input id="f-year" inputmode="numeric" value="${escapeHtml(String(a.year||''))}">
+            </div>
+            <div class="field">
+              <label for="f-genre">Genre</label>
+              <input id="f-genre" value="${escapeHtml(a.genre||'')}">
+            </div>
+          </div>
+          <div class="field">
+            <label for="f-category">Shelf</label>
+            <select id="f-category">
+              <option value="album" ${a.category==='album'?'selected':''}>Album (squares 1–2)</option>
+              <option value="soundtrack" ${a.category==='soundtrack'?'selected':''}>Soundtrack (square 3)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-tracklist">Tracklist (one per line)</label>
+            <textarea id="f-tracklist">${escapeHtml((a.tracklist||[]).join('\\n'))}</textarea>
+          </div>
+          <div class="field">
+            <label for="f-notes">Notes</label>
+            <textarea id="f-notes" placeholder="Where you found it, why it's on the shelf, whatever's worth remembering">${escapeHtml(a.notes||'')}</textarea>
+          </div>
+          <div class="modal-actions">
+            <button type="submit" class="btn primary">${isEdit ? 'Save changes' : 'Add to the shelf'}</button>
+            <button type="button" class="btn" id="cancel-form">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>`;
+  document.getElementById('close-modal').onclick = closeModal;
+  document.getElementById('cancel-form').onclick = closeModal;
+  document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id === 'overlay') closeModal(); });
+  document.getElementById('album-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const record = {
+      id: isEdit ? a.id : 'rec_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+      catalogNo: isEdit ? a.catalogNo : nextCatalogNo(),
+      title: document.getElementById('f-title').value.trim(),
+      artist: document.getElementById('f-artist').value.trim(),
+      year: document.getElementById('f-year').value.trim(),
+      genre: document.getElementById('f-genre').value.trim(),
+      category: document.getElementById('f-category').value,
+      tracklist: document.getElementById('f-tracklist').value.split('\\n').map(s=>s.trim()).filter(Boolean),
+      notes: document.getElementById('f-notes').value.trim(),
+    };
+    if(isEdit){
+      albums = albums.map(al => al.id === record.id ? record : al);
+    } else {
+      albums.push(record);
+    }
+    await saveAlbums();
+    closeModal();
+    renderGrid();
+    showToast(isEdit ? 'Changes saved' : `Added "${record.title}"`);
+  });
+}
+
+document.getElementById('search').addEventListener('input', (e) => {
+  searchTerm = e.target.value;
+  renderGrid();
+});
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    activeFilter = tab.dataset.filter;
+    renderGrid();
+  });
+});
+
+document.getElementById('surprise-btn').addEventListener('click', () => {
+  const btn = document.getElementById('surprise-btn');
+  const pool = filteredAlbums().length ? filteredAlbums() : albums;
+  if(pool.length === 0){ showToast('Nothing on the shelf yet'); return; }
+  btn.classList.add('spinning');
+  setTimeout(() => {
+    btn.classList.remove('spinning');
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    openDetail(pick, true);
+  }, 450);
+});
+
+addBtn.addEventListener('click', () => openForm(null));
+
+curatorBtn.addEventListener('click', () => {
+  if(curatorMode){
+    curatorMode = false;
+    updateCuratorUI();
+    return;
+  }
+  openCuratorModal();
+});
+
+function openCuratorModal(){
+  const needsJsonbinSetup = !hasClaudeStorage() && !getJsonbinConfig().binId;
+
+  modalHost.innerHTML = `
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true" style="max-width:400px;">
+        <button class="modal-close" id="close-modal" aria-label="Close">✕</button>
+        <h2 class="modal-title" style="margin-bottom:0.7rem;">Curator sign-in</h2>
+        <p class="notes" id="curator-modal-msg" style="margin:0 0 1rem; font-style:normal; color:var(--brown-soft);">Checking…</p>
+
+        <div class="field" id="jsonbin-setup-fields" style="display:none;">
+          <label for="c-jsonbin-id">JSONBin Bin ID</label>
+          <input id="c-jsonbin-id" type="text" placeholder="e.g. 6512a3...">
+          <label for="c-jsonbin-key" style="margin-top:0.6rem;">JSONBin Master Key</label>
+          <input id="c-jsonbin-key" type="password" autocomplete="off">
+        </div>
+
+        <div class="field" id="curator-modal-field" style="display:none;">
+          <label for="curator-pin-input">PIN</label>
+          <input id="curator-pin-input" type="password" autocomplete="off">
+        </div>
+        <div class="modal-actions">
+          <button class="btn primary" id="curator-modal-submit" style="display:none;">Continue</button>
+          <button class="btn" id="curator-modal-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('close-modal').onclick = closeModal;
+  document.getElementById('curator-modal-cancel').onclick = closeModal;
+  document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id === 'overlay') closeModal(); });
+
+  const msgEl = document.getElementById('curator-modal-msg');
+  const fieldEl = document.getElementById('curator-modal-field');
+  const inputEl = document.getElementById('curator-pin-input');
+  const submitEl = document.getElementById('curator-modal-submit');
+  const jsonbinFields = document.getElementById('jsonbin-setup-fields');
+
+  function showPinStep(){
+    (async () => {
+      let stored;
+      try{ stored = await storageGet(PIN_KEY); }catch(e){ stored = null; }
+      const hasPin = !!stored;
+      jsonbinFields.style.display = 'none';
+      msgEl.textContent = hasPin
+        ? 'Enter your curator PIN to continue.'
+        : "No curator PIN set yet — choose one now (you'll use it to add, edit, or remove records).";
+      fieldEl.style.display = 'flex';
+      submitEl.style.display = 'inline-block';
+      submitEl.textContent = hasPin ? 'Unlock' : 'Set PIN';
+      inputEl.focus();
+
+      const submit = async () => {
+        const val = inputEl.value.trim();
+        if(!val) return;
+        if(hasPin){
+          if(val === stored.value){
+            curatorMode = true;
+            closeModal();
+            updateCuratorUI();
+            showToast('Curator mode on');
+          } else {
+            msgEl.textContent = 'Wrong PIN — try again.';
+            inputEl.value = '';
+            inputEl.focus();
+          }
+        } else {
+          try{
+            const result = await storageSet(PIN_KEY, val);
+            if(!result){
+              msgEl.textContent = 'Save returned no result — try again, or report this back.';
+              return;
+            }
+            curatorMode = true;
+            closeModal();
+            updateCuratorUI();
+            showToast('Curator PIN set — you’re in');
+          }catch(e){
+            msgEl.textContent = 'Save failed: ' + (e && e.message ? e.message : String(e));
+          }
+        }
+      };
+      submitEl.onclick = submit;
+      inputEl.addEventListener('keydown', (e) => { if(e.key === 'Enter') submit(); });
+    })();
+  }
+
+  if(needsJsonbinSetup){
+    msgEl.textContent = "This copy of the page isn't running on claude.ai, so it needs its own free database to remember changes. Create a free bin at jsonbin.io, then paste its Bin ID and Master Key here — one-time setup.";
+    jsonbinFields.style.display = 'flex';
+    submitEl.style.display = 'inline-block';
+    submitEl.textContent = 'Connect';
+    submitEl.onclick = () => {
+      const binId = document.getElementById('c-jsonbin-id').value.trim();
+      const apiKey = document.getElementById('c-jsonbin-key').value.trim();
+      if(!binId || !apiKey){
+        msgEl.textContent = 'Both fields are needed to continue.';
+        return;
+      }
+      setJsonbinConfig(binId, apiKey);
+      jsonbinCacheLoaded = false; // force a fresh load under the new config
+      showPinStep();
+    };
+  } else {
+    showPinStep();
+  }
+}
+
+function updateCuratorUI(){
+  addBtn.style.display = curatorMode ? 'inline-block' : 'none';
+  curatorBanner.style.display = curatorMode ? 'block' : 'none';
+  curatorBtn.textContent = curatorMode ? 'Exit curator mode' : 'Curator sign-in';
+  renderGrid();
+}
+
+/* ---------- Discogs cover art ---------- */
+const DISCOGS_TOKEN_KEY = 'kallax-discogs-token';
+const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+async function prefillDiscogsToken(){
+  try{
+    const stored = await storageGet(DISCOGS_TOKEN_KEY);
+    if(stored && stored.value){
+      document.getElementById('discogs-token').value = stored.value;
+    }
+  }catch(e){ /* no token saved yet */ }
+}
+
+document.getElementById('fetch-covers-btn').addEventListener('click', async () => {
+  const tokenInput = document.getElementById('discogs-token');
+  const token = tokenInput.value.trim();
+  const statusEl = document.getElementById('cover-panel-status');
+  if(!token){ statusEl.textContent = 'Paste a token first.'; return; }
+
+  try{ await storageSet(DISCOGS_TOKEN_KEY, token); }catch(e){ /* non-fatal */ }
+
+  const queue = albums.filter(a => a.discogsId && !a.cover);
+  if(queue.length === 0){
+    statusEl.textContent = 'Every record already has cover art.';
+    return;
+  }
+
+  const fetchBtn = document.getElementById('fetch-covers-btn');
+  fetchBtn.disabled = true;
+  let done = 0;
+  const reasons = { unauthorized: 0, notFound: 0, rateLimited: 0, noImage: 0, networkError: 0, other: 0 };
+  let sampleError = '';
+
+  for(const album of queue){
+    statusEl.textContent = `Fetching covers… ${done + reasons.unauthorized + reasons.notFound + reasons.rateLimited + reasons.noImage + reasons.networkError + reasons.other}/${queue.length}`;
+    try{
+      const res = await fetch(`https://api.discogs.com/releases/${encodeURIComponent(album.discogsId)}?token=${encodeURIComponent(token)}`);
+      if(res.ok){
+        const data = await res.json();
+        const img = (data.images && data.images.length)
+          ? (data.images[0].uri || data.images[0].resource_url || data.images[0].uri150)
+          : (data.thumb || null);
+        if(img){ album.cover = img; done++; } else { reasons.noImage++; }
+      } else if(res.status === 401 || res.status === 403){
+        reasons.unauthorized++;
+        if(!sampleError) sampleError = `HTTP ${res.status} — token was rejected`;
+      } else if(res.status === 404){
+        reasons.notFound++;
+      } else if(res.status === 429){
+        reasons.rateLimited++;
+        if(!sampleError) sampleError = 'HTTP 429 — rate limited';
+        await sleep(4000);
+      } else {
+        reasons.other++;
+        if(!sampleError) sampleError = `HTTP ${res.status}`;
+      }
+    }catch(e){
+      reasons.networkError++;
+      if(!sampleError) sampleError = 'Network/CORS error: ' + (e && e.message ? e.message : String(e));
+    }
+    if((done + reasons.unauthorized + reasons.notFound + reasons.rateLimited + reasons.noImage + reasons.networkError + reasons.other) % 5 === 0){
+      await saveAlbums();
+      renderGrid();
+    }
+    await sleep(1100); // stay comfortably under Discogs' 60/min authenticated limit
+  }
+
+  await saveAlbums();
+  renderGrid();
+  fetchBtn.disabled = false;
+
+  const totalFailed = queue.length - done;
+  if(totalFailed === 0){
+    statusEl.textContent = `Done — all ${done} covers added.`;
+  } else {
+    const parts = [];
+    if(reasons.unauthorized) parts.push(`${reasons.unauthorized} unauthorized (token rejected)`);
+    if(reasons.rateLimited) parts.push(`${reasons.rateLimited} rate-limited`);
+    if(reasons.notFound) parts.push(`${reasons.notFound} not found on Discogs`);
+    if(reasons.noImage) parts.push(`${reasons.noImage} found but no image`);
+    if(reasons.networkError) parts.push(`${reasons.networkError} network/CORS errors`);
+    if(reasons.other) parts.push(`${reasons.other} other errors`);
+    statusEl.textContent = `Done — ${done} added, ${totalFailed} failed (${parts.join(', ')}).` + (sampleError ? ` Example: ${sampleError}` : '');
+  }
+});
+
+/* ---------- Theme / customization ---------- */
+const THEME_KEY = 'kallax-theme-v1';
+const PRESETS = {
+  classic: {
+    fonts: { display: 'Boogaloo', body: 'Arvo', mono: 'Space Mono' },
+    colors: {
+      cream: '#F2E4C9', 'cream-dark': '#E6D2A6', paper: '#FBF4E4',
+      rust: '#C2521E', 'rust-dark': '#9C3E14', brown: '#3B2415',
+      'brown-soft': '#6B4A31', mustard: '#D9A441', avocado: '#5C6B2F', teal: '#2A5C55',
+      'label-text': '#FBF4E4'
+    },
+    logoPreset: 'classic'
+  },
+  jazz: {
+    fonts: { display: 'Playfair Display', body: 'Lora', mono: 'IBM Plex Mono' },
+    colors: {
+      cream: '#22101A', 'cream-dark': '#331A26', paper: '#2B1420',
+      rust: '#A85C2E', 'rust-dark': '#E0995A', brown: '#F3E6C8',
+      'brown-soft': '#CBB08C', mustard: '#D4AF37', avocado: '#4C7A5A', teal: '#6A4C93',
+      'label-text': '#F3E6C8'
+    },
+    logoPreset: 'jazz'
+  }
+};
+
+const DEFAULT_THEME = {
+  text: { eyebrow: 'SIDE A', title: 'The Record Parlour', tagline: 'A Private Record Collection' },
+  fonts: JSON.parse(JSON.stringify(PRESETS.classic.fonts)),
+  colors: JSON.parse(JSON.stringify(PRESETS.classic.colors)),
+  logoImage: null,
+  logoSize: 76,
+  logoPreset: 'classic',
+  spinOff: false
+};
+
+const FONT_OPTIONS = {
+  display: ['Boogaloo', 'Bungee', 'Righteous', 'Fredoka', 'Abril Fatface', 'Permanent Marker', 'Playfair Display'],
+  body: ['Arvo', 'Merriweather', 'Lora', 'Poppins', 'Inter', 'Courier Prime'],
+  mono: ['Space Mono', 'IBM Plex Mono', 'JetBrains Mono', 'Courier Prime']
+};
+
+let currentTheme = JSON.parse(JSON.stringify(DEFAULT_THEME));
+
+function applyTheme(theme){
+  const root = document.documentElement.style;
+  Object.entries(theme.colors || {}).forEach(([k, v]) => root.setProperty('--' + k, v));
+  if(theme.fonts){
+    root.setProperty('--font-display', `'${theme.fonts.display}', sans-serif`);
+    root.setProperty('--font-body', `'${theme.fonts.body}', serif`);
+    root.setProperty('--font-mono', `'${theme.fonts.mono}', monospace`);
+  }
+  const t = theme.text || {};
+  document.getElementById('site-eyebrow').textContent = t.eyebrow || DEFAULT_THEME.text.eyebrow;
+  document.getElementById('site-title').textContent = t.title || DEFAULT_THEME.text.title;
+  document.getElementById('site-tagline').textContent = t.tagline || DEFAULT_THEME.text.tagline;
+  document.title = t.title || DEFAULT_THEME.text.title;
+
+  const logoEl = document.getElementById('vinyl-logo');
+  if(theme.logoImage){
+    logoEl.classList.add('custom-logo');
+    logoEl.classList.remove('preset-jazz');
+    logoEl.style.setProperty('--logo-size', (theme.logoSize || DEFAULT_THEME.logoSize) + 'px');
+    logoEl.style.backgroundImage = `url("${theme.logoImage}")`;
+  } else {
+    logoEl.classList.remove('custom-logo');
+    logoEl.style.removeProperty('--logo-size');
+    logoEl.style.backgroundImage = '';
+    logoEl.classList.toggle('preset-jazz', theme.logoPreset === 'jazz');
+  }
+  logoEl.classList.toggle('spin-off', !!theme.spinOff);
+}
+
+async function loadTheme(){
+  try{
+    const res = await storageGet(THEME_KEY);
+    if(res && res.value){
+      currentTheme = JSON.parse(res.value);
+    }
+  }catch(e){ /* use default */ }
+  applyTheme(currentTheme);
+}
+
+async function saveTheme(theme){
+  currentTheme = theme;
+  applyTheme(theme);
+  try{
+    await storageSet(THEME_KEY, JSON.stringify(theme));
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+function fontOptionsHtml(list, selected){
+  return list.map(f => `<option value="${escapeHtml(f)}" ${f === selected ? 'selected' : ''}>${escapeHtml(f)}</option>`).join('');
+}
+
+function loadImageFromUrl(url, maxDim){
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try{
+        let { width, height } = img;
+        if(width > maxDim || height > maxDim){
+          if(width > height){ height = Math.round(height * (maxDim / width)); width = maxDim; }
+          else { width = Math.round(width * (maxDim / height)); height = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/png'); // throws if the host doesn't allow CORS
+        resolve({ ok: true, dataUrl, embeddable: true });
+      }catch(e){
+        // Image loaded but the canvas is "tainted" (host doesn't send CORS headers) —
+        // fall back to using it as a plain external link instead.
+        resolve({ ok: true, dataUrl: url, embeddable: false });
+      }
+    };
+    img.onerror = () => resolve({ ok: false });
+    img.src = url;
+  });
+}
+
+function resizeImageDataUrl(dataUrl, maxDim){
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if(width > maxDim || height > maxDim){
+        if(width > height){ height = Math.round(height * (maxDim / width)); width = maxDim; }
+        else { width = Math.round(width * (maxDim / height)); height = maxDim; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+function removeBackgroundFromDataUrl(dataUrl, sensitivity){
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width; canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      const w = canvas.width, h = canvas.height;
+
+      // Sample the four corners to guess the background color
+      const corners = [[0,0], [w-1,0], [0,h-1], [w-1,h-1]];
+      let r = 0, g = 0, b = 0;
+      corners.forEach(([x, y]) => {
+        const i = (y * w + x) * 4;
+        r += data[i]; g += data[i+1]; b += data[i+2];
+      });
+      r /= 4; g /= 4; b /= 4;
+
+      const threshold = (sensitivity / 100) * 260; // 0-100 slider mapped to a color-distance cutoff
+      for(let i = 0; i < data.length; i += 4){
+        const dr = data[i] - r, dg = data[i+1] - g, db = data[i+2] - b;
+        const dist = Math.sqrt(dr*dr + dg*dg + db*db);
+        if(dist < threshold){
+          data[i+3] = 0;
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror = () => resolve(dataUrl);
+    img.src = dataUrl;
+  });
+}
+
+document.getElementById('customize-btn').addEventListener('click', openCustomizeModal);
+
+function openCustomizeModal(){
+  const t = currentTheme;
+  const working = JSON.parse(JSON.stringify(t)); // mutable working copy — presets and pickers both write here
+
+  modalHost.innerHTML = `
+    <div class="overlay" id="overlay">
+      <div class="modal" role="dialog" aria-modal="true" style="max-width:560px;">
+        <button class="modal-close" id="close-modal" aria-label="Close">✕</button>
+        <h2 class="modal-title" style="margin-bottom:1rem;">Customize the site</h2>
+
+        <p class="section-label" style="margin-top:0;">Look</p>
+        <div class="modal-actions" style="margin-top:0; margin-bottom:1.1rem;">
+          <button type="button" class="btn" id="c-preset-classic">☀️ Classic</button>
+          <button type="button" class="btn" id="c-preset-jazz">🎷 Jazz Parlour</button>
+        </div>
+        <p class="cover-panel-text" style="margin:-0.6rem 0 1.1rem;">Presets set the colors, fonts, and logo style below all at once — you can still fine-tune anything after picking one.</p>
+
+        <p class="section-label" style="margin-top:0;">Text</p>
+        <div class="field">
+          <label for="c-eyebrow">Eyebrow label</label>
+          <input id="c-eyebrow" value="${escapeHtml(t.text.eyebrow)}">
+        </div>
+        <div class="field">
+          <label for="c-title">Site title</label>
+          <input id="c-title" value="${escapeHtml(t.text.title)}">
+        </div>
+        <div class="field">
+          <label for="c-tagline">Tagline</label>
+          <input id="c-tagline" value="${escapeHtml(t.text.tagline)}">
+        </div>
+
+        <p class="section-label">Fonts</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-font-display">Display (titles &amp; buttons)</label>
+            <select id="c-font-display">${fontOptionsHtml(FONT_OPTIONS.display, t.fonts.display)}</select>
+          </div>
+          <div class="field">
+            <label for="c-font-body">Body text</label>
+            <select id="c-font-body">${fontOptionsHtml(FONT_OPTIONS.body, t.fonts.body)}</select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="c-font-mono">Mono (catalog numbers, labels)</label>
+          <select id="c-font-mono">${fontOptionsHtml(FONT_OPTIONS.mono, t.fonts.mono)}</select>
+        </div>
+
+        <p class="section-label">Colors</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-color-cream">Background</label>
+            <input type="color" id="c-color-cream" value="${t.colors.cream}">
+          </div>
+          <div class="field">
+            <label for="c-color-brown">Text / dark</label>
+            <input type="color" id="c-color-brown" value="${t.colors.brown}">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-color-rust">Primary accent</label>
+            <input type="color" id="c-color-rust" value="${t.colors.rust}">
+          </div>
+          <div class="field">
+            <label for="c-color-mustard">Secondary accent</label>
+            <input type="color" id="c-color-mustard" value="${t.colors.mustard}">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="c-color-avocado">Album tag</label>
+            <input type="color" id="c-color-avocado" value="${t.colors.avocado}">
+          </div>
+          <div class="field">
+            <label for="c-color-teal">Soundtrack tag</label>
+            <input type="color" id="c-color-teal" value="${t.colors.teal}">
+          </div>
+        </div>
+
+        <p class="section-label">Logo</p>
+        <div class="field">
+          <label for="c-logo-upload">Upload a custom image (replaces the spinning record)</label>
+          <input type="file" id="c-logo-upload" accept="image/*">
+        </div>
+        <div class="field">
+          <label for="c-logo-url">...or paste an image link</label>
+          <div class="cover-panel-row">
+            <input id="c-logo-url" type="text" placeholder="https://example.com/logo.png">
+            <button type="button" class="btn" id="c-logo-url-apply">Use this link</button>
+          </div>
+          <p class="cover-panel-status" id="c-logo-url-status"></p>
+        </div>
+        <div class="logo-preview-row" id="logo-preview-row" style="display:none;">
+          <div class="logo-preview-swatch" id="logo-preview-swatch"></div>
+          <div class="logo-preview-actions">
+            <button type="button" class="btn" id="c-remove-bg">Remove background</button>
+            <button type="button" class="btn" id="c-undo-bg" style="display:none;">Undo</button>
+            <div class="logo-sensitivity" id="logo-sensitivity" style="display:none;">
+              <label for="c-bg-tolerance">Sensitivity</label>
+              <input type="range" id="c-bg-tolerance" min="5" max="100" value="32">
+            </div>
+          </div>
+        </div>
+        <div class="logo-sensitivity" id="logo-size-row" style="display:none; margin:0 0 1rem;">
+          <label for="c-logo-size">Size</label>
+          <input type="range" id="c-logo-size" min="40" max="220" value="${t.logoSize || 76}">
+          <span class="mono" id="c-logo-size-label" style="font-size:0.78rem; color:var(--brown-soft);">${t.logoSize || 76}px</span>
+        </div>
+        <div class="field-row" style="align-items:center;">
+          <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.85rem; color:var(--brown-soft); text-transform:none; letter-spacing:normal;">
+            <input type="checkbox" id="c-spin-off" ${t.spinOff ? 'checked' : ''} style="width:auto;">
+            Stop the logo from spinning
+          </label>
+          <button type="button" class="btn" id="c-logo-clear">Remove custom image</button>
+        </div>
+
+        <p class="cover-panel-status" id="customize-status"></p>
+        <div class="modal-actions">
+          <button class="btn primary" id="customize-save">Save changes</button>
+          <button class="btn" id="customize-reset">Reset to default</button>
+          <button class="btn" id="customize-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('close-modal').onclick = closeModal;
+  document.getElementById('customize-cancel').onclick = closeModal;
+  document.getElementById('overlay').addEventListener('click', (e)=>{ if(e.target.id === 'overlay') closeModal(); });
+
+  // Keep `working` in sync with whatever the person edits by hand
+  const colorFields = ['cream', 'brown', 'rust', 'mustard', 'avocado', 'teal'];
+  colorFields.forEach(key => {
+    document.getElementById('c-color-' + key).addEventListener('input', (e) => {
+      working.colors[key] = e.target.value;
+    });
+  });
+  document.getElementById('c-font-display').addEventListener('change', (e) => { working.fonts.display = e.target.value; });
+  document.getElementById('c-font-body').addEventListener('change', (e) => { working.fonts.body = e.target.value; });
+  document.getElementById('c-font-mono').addEventListener('change', (e) => { working.fonts.mono = e.target.value; });
+
+  function refreshFormFromWorking(){
+    colorFields.forEach(key => { document.getElementById('c-color-' + key).value = working.colors[key]; });
+    document.getElementById('c-font-display').value = working.fonts.display;
+    document.getElementById('c-font-body').value = working.fonts.body;
+    document.getElementById('c-font-mono').value = working.fonts.mono;
+  }
+
+  function applyPreset(name){
+    const preset = PRESETS[name];
+    working.colors = JSON.parse(JSON.stringify(preset.colors));
+    working.fonts = JSON.parse(JSON.stringify(preset.fonts));
+    working.logoPreset = preset.logoPreset;
+    refreshFormFromWorking();
+    showToast(name === 'jazz' ? 'Jazz Parlour look loaded — hit Save to keep it' : 'Classic look loaded — hit Save to keep it');
+  }
+  document.getElementById('c-preset-classic').onclick = () => applyPreset('classic');
+  document.getElementById('c-preset-jazz').onclick = () => applyPreset('jazz');
+
+  let pendingLogoImage = t.logoImage || null;
+  const savedIsEmbedded = !!(t.logoImage && t.logoImage.startsWith('data:'));
+  let rawUploadImage = savedIsEmbedded ? t.logoImage : null; // baseline image background-removal runs against
+
+  const previewRow = document.getElementById('logo-preview-row');
+  const previewSwatch = document.getElementById('logo-preview-swatch');
+  const undoBtn = document.getElementById('c-undo-bg');
+  const sensitivityWrap = document.getElementById('logo-sensitivity');
+  const toleranceInput = document.getElementById('c-bg-tolerance');
+
+  function updateLogoPreview(){
+    const sizeRow = document.getElementById('logo-size-row');
+    if(pendingLogoImage){
+      previewRow.style.display = 'flex';
+      previewSwatch.innerHTML = `<img src="${pendingLogoImage}" alt="">`;
+      sizeRow.style.display = 'flex';
+    } else {
+      previewRow.style.display = 'none';
+      sizeRow.style.display = 'none';
+    }
+  }
+  updateLogoPreview();
+  document.getElementById('c-remove-bg').disabled = !rawUploadImage;
+  const logoSizeInput = document.getElementById('c-logo-size');
+  const logoSizeLabel = document.getElementById('c-logo-size-label');
+  logoSizeInput.addEventListener('input', () => {
+    logoSizeLabel.textContent = logoSizeInput.value + 'px';
+  });
+
+  document.getElementById('c-logo-upload').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      resizeImageDataUrl(reader.result, 320).then(resized => {
+        rawUploadImage = resized;
+        pendingLogoImage = resized;
+        undoBtn.style.display = 'none';
+        sensitivityWrap.style.display = 'none';
+        document.getElementById('c-remove-bg').disabled = false;
+        document.getElementById('c-logo-url-status').textContent = '';
+        updateLogoPreview();
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('c-logo-url-apply').onclick = async () => {
+    const url = document.getElementById('c-logo-url').value.trim();
+    const urlStatus = document.getElementById('c-logo-url-status');
+    if(!url){ urlStatus.textContent = 'Paste a link first.'; return; }
+    urlStatus.textContent = 'Loading…';
+    const result = await loadImageFromUrl(url, 320);
+    if(!result.ok){
+      urlStatus.textContent = "Couldn't load that image — check the link is correct and publicly viewable.";
+      return;
+    }
+    rawUploadImage = result.embeddable ? result.dataUrl : null;
+    pendingLogoImage = result.dataUrl;
+    undoBtn.style.display = 'none';
+    sensitivityWrap.style.display = 'none';
+    document.getElementById('c-remove-bg').disabled = !result.embeddable;
+    urlStatus.textContent = result.embeddable
+      ? 'Link loaded.'
+      : "This image's host blocks background removal, but it'll still display fine as a direct link. Heads up: if that link ever goes down, the logo will too.";
+    updateLogoPreview();
+  };
+
+  document.getElementById('c-logo-clear').onclick = () => {
+    pendingLogoImage = null;
+    rawUploadImage = null;
+    document.getElementById('c-logo-upload').value = '';
+    document.getElementById('c-logo-url').value = '';
+    document.getElementById('c-logo-url-status').textContent = '';
+    undoBtn.style.display = 'none';
+    sensitivityWrap.style.display = 'none';
+    updateLogoPreview();
+  };
+
+  let bgRemoveTimer = null;
+  function runRemoveBackground(){
+    if(!rawUploadImage) return;
+    removeBackgroundFromDataUrl(rawUploadImage, Number(toleranceInput.value)).then(result => {
+      pendingLogoImage = result;
+      updateLogoPreview();
+      undoBtn.style.display = 'inline-block';
+    });
+  }
+
+  document.getElementById('c-remove-bg').onclick = () => {
+    if(!rawUploadImage) return;
+    sensitivityWrap.style.display = 'flex';
+    runRemoveBackground();
+  };
+
+  toleranceInput.addEventListener('input', () => {
+    clearTimeout(bgRemoveTimer);
+    bgRemoveTimer = setTimeout(runRemoveBackground, 120);
+  });
+
+  undoBtn.onclick = () => {
+    pendingLogoImage = rawUploadImage;
+    updateLogoPreview();
+    undoBtn.style.display = 'none';
+    sensitivityWrap.style.display = 'none';
+  };
+
+  document.getElementById('customize-reset').onclick = async () => {
+    const ok = await saveTheme(JSON.parse(JSON.stringify(DEFAULT_THEME)));
+    closeModal();
+    showToast(ok ? 'Reset to default look' : "Couldn't save — try again");
+  };
+
+  document.getElementById('customize-save').onclick = async () => {
+    const newTheme = {
+      text: {
+        eyebrow: document.getElementById('c-eyebrow').value.trim() || DEFAULT_THEME.text.eyebrow,
+        title: document.getElementById('c-title').value.trim() || DEFAULT_THEME.text.title,
+        tagline: document.getElementById('c-tagline').value.trim() || DEFAULT_THEME.text.tagline,
+      },
+      fonts: JSON.parse(JSON.stringify(working.fonts)),
+      colors: JSON.parse(JSON.stringify(working.colors)),
+      logoPreset: working.logoPreset || 'classic',
+      logoImage: pendingLogoImage,
+      logoSize: Number(logoSizeInput.value),
+      spinOff: document.getElementById('c-spin-off').checked,
+    };
+    const statusEl = document.getElementById('customize-status');
+    statusEl.textContent = 'Saving…';
+    const ok = await saveTheme(newTheme);
+    if(ok){
+      closeModal();
+      showToast('Site updated');
+    } else {
+      statusEl.textContent = "Couldn't save — try again.";
+    }
+  };
+}
+
+(async function init(){
+  await loadAlbums();
+  await loadTheme();
+  updateCuratorUI();
+  renderGrid();
+  prefillDiscogsToken();
+})();
+</script>
+</body>
+</html>
